@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from taflex.core.drivers.driver_factory import DriverFactory
 from taflex.core.config.app_config import AppConfig
 

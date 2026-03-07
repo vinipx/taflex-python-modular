@@ -1,5 +1,4 @@
 import pytest
-from unittest.mock import MagicMock
 from taflex.api.client import HttpxClient
 from taflex.core.config.app_config import AppConfig
 
