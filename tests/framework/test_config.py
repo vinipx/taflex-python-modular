@@ -23,21 +23,37 @@ def test_app_config_default_values():
             if value is not None:
                 os.environ[key] = value
 
-def test_app_config_override_from_env():
-    """Verify env vars correctly override default values."""
-    os.environ["EXECUTION_MODE"] = "api"
-    os.environ["BROWSER"] = "firefox"
-    os.environ["TIMEOUT_MS"] = "15000"
-    os.environ["ENVIRONMENT"] = "staging"
-    
+def test_app_config_invalid_type_from_env():
+    """Verify that invalid data types in env vars raise a validation error."""
+    os.environ["TIMEOUT_MS"] = "not_a_number"
+    try:
+        from pydantic import ValidationError
+        with pytest.raises(ValidationError):
+            AppConfig()
+    finally:
+        if "TIMEOUT_MS" in os.environ:
+            del os.environ["TIMEOUT_MS"]
+
+def test_app_config_extra_env_vars_ignored():
+    """Verify that extra environment variables do not affect the config object."""
+    os.environ["TAFLEX_UNKNOWN_FIELD"] = "some_value"
     try:
         config = AppConfig()
-        assert config.execution_mode == "api"
-        assert config.browser == "firefox"
-        assert config.timeout_ms == 15000
-        assert config.environment == "staging"
+        assert not hasattr(config, "taflex_unknown_field")
     finally:
-        # Cleanup
-        for key in ["EXECUTION_MODE", "BROWSER", "TIMEOUT_MS", "ENVIRONMENT"]:
-            if key in os.environ:
-                del os.environ[key]
+        if "TAFLEX_UNKNOWN_FIELD" in os.environ:
+            del os.environ["TAFLEX_UNKNOWN_FIELD"]
+
+def test_app_config_boolean_parsing():
+    """Verify that boolean strings are correctly parsed from env vars."""
+    os.environ["HEADLESS"] = "false"
+    try:
+        config = AppConfig()
+        assert config.headless is False
+        
+        os.environ["HEADLESS"] = "true"
+        config = AppConfig()
+        assert config.headless is True
+    finally:
+        if "HEADLESS" in os.environ:
+            del os.environ["HEADLESS"]

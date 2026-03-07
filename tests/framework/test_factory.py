@@ -33,3 +33,12 @@ def test_driver_factory_unsupported_mode():
     
     with pytest.raises(ValueError, match="Unsupported execution mode: invalid_mode"):
         DriverFactory.create(config)
+
+def test_driver_factory_missing_module():
+    """Verify DriverFactory raises ImportError if the module cannot be loaded (simulated)."""
+    config = AppConfig(execution_mode="web")
+    
+    # Simulate an error during import
+    with patch("taflex.web.driver.PlaywrightDriver", side_effect=ImportError("Mocked import error")):
+        with pytest.raises(ImportError, match="Mocked import error"):
+            DriverFactory.create(config)
