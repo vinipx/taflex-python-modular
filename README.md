@@ -22,25 +22,20 @@ A modular, enterprise-grade Python test automation framework designed for high-p
 
 ## 🛠️ Installation & Setup
 
-Install the core framework with optional "extras" based on your project requirements:
-
-```bash
-# API Only
-pip install "taflex-py[api]"
-
-# Web Only
-pip install "taflex-py[web]"
-
-# Full Stack (Web, API, Mobile, Contract, BDD)
-pip install "taflex-py[all]"
-```
+We provide a project scaffolding wizard to set up your test automation environment instantly. This script handles module selection, reporting tools, and CI/CD configuration.
 
 ### Quickstart Wizard
-We provide a scaffolding script to set up a new project structure instantly:
 ```bash
+# Clone the repository and run the setup wizard
 chmod +x setup.sh
 ./setup.sh
 ```
+
+The wizard will guide you through:
+1. **Module Selection**: Web (Playwright), API (HTTPX), Mobile (Appium), or Contract (Pact).
+2. **Reporting**: Allure, ReportPortal, Jira Xray, or HTML.
+3. **CI/CD**: Automatic generation of GitHub Actions or GitLab CI workflows.
+4. **Environment**: Automatic `.env` and `pyproject.toml` generation.
 
 ---
 
