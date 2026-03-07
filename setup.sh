@@ -110,7 +110,7 @@ TEMPLATE_DIR=$(pwd)
 echo "Scaffolding project at $project_path..."
 
 # Create project structure
-mkdir -p "$project_path/tests"
+mkdir -p "$project_path/tests/pages"
 mkdir -p "$project_path/src/taflex"
 
 # Generate .gitignore
@@ -510,20 +510,38 @@ pytest_plugins = [
 # You can add project-specific fixtures here.
 EOF
 
-# Generate sample tests for each selected module
+# Generate sample Page Objects and tests for each selected module
 for mod in "${modules[@]}"; do
     if [ "$mod" == "web" ]; then
+cat <<EOF > "$project_path/tests/pages/search_page.py"
+from taflex.core.drivers.base_page import BasePage
+
+class SearchPage(BasePage):
+    """Sample Page Object for Web testing."""
+    URL = "https://www.google.com"
+    SEARCH_INPUT = "[name='q']"
+    
+    def open(self):
+        self.navigate_to(self.URL)
+        return self
+
+    def search_for(self, query):
+        self.driver.type(self.SEARCH_INPUT, query)
+        self.driver.page.keyboard.press("Enter")
+EOF
+
 cat <<EOF > "$project_path/tests/test_sample_web.py"
 import pytest
+from tests.pages.search_page import SearchPage
 
 @pytest.mark.web
-def test_example_web(driver):
-    print(f"Using: {driver.driver_type}")
-    assert "Playwright" in driver.driver_type
+def test_example_web_pom(driver):
+    """Sample Web test using Page Object Model."""
+    search_page = SearchPage(driver)
+    search_page.open()
+    search_page.search_for("taflex-py modular framework")
     
-    # Example playwright usage
-    # page = driver
-    # page.goto("https://example.com")
+    assert "taflex-py" in driver.page.title() or "google" in driver.page.url
 EOF
     elif [ "$mod" == "api" ]; then
 cat <<EOF > "$project_path/tests/test_sample_api.py"
@@ -535,13 +553,29 @@ def test_example_api(driver):
     assert "HTTPX" in driver.driver_type
 EOF
     elif [ "$mod" == "mobile" ]; then
+cat <<EOF > "$project_path/tests/pages/app_page.py"
+from taflex.core.drivers.base_page import BasePage
+
+class AppPage(BasePage):
+    """Sample Page Object for Mobile testing."""
+    LOGIN_BUTTON = "login_button"
+    
+    def tap_login(self):
+        self.driver.click(self.LOGIN_BUTTON)
+EOF
+
 cat <<EOF > "$project_path/tests/test_sample_mobile.py"
 import pytest
+from tests.pages.app_page import AppPage
 
 @pytest.mark.mobile
-def test_example_mobile(driver):
+def test_example_mobile_pom(driver):
+    """Sample Mobile test using Page Object Model."""
+    app_page = AppPage(driver)
     print(f"Using: {driver.driver_type}")
     assert "Appium" in driver.driver_type
+    
+    # app_page.tap_login()
 EOF
     elif [ "$mod" == "contract" ]; then
 cat <<EOF > "$project_path/tests/test_sample_contract.py"
