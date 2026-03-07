@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "taflex-py"
+version = "0.1.0"
+dependencies = [
+    "pytest",
+    "pydantic",
+    "pydantic-settings",
+    "allure-pytest",
+    "pytest-reportportal",
+    "pytest-jira-xray",
+    "SQLAlchemy",
+    "ruff",
+    "mypy",
+    "pytest-xdist"
+]
+
+[project.optional-dependencies]
+api = ["httpx", "playwright"]
+web = ["playwright"]
+mobile = ["Appium-Python-Client"]
+bdd = ["pytest-bdd"]
+contract = ["pact-python"]
+all = ["taflex-py[api,web,mobile,bdd,contract]"]
