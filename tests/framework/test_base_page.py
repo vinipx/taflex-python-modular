@@ -1,4 +1,3 @@
-import pytest
 from unittest.mock import MagicMock
 from taflex.core.drivers.base_page import BasePage
 
