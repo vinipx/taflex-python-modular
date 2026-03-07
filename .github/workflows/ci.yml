@@ -34,6 +34,7 @@ jobs:
     - name: Type check with Mypy
       run: mypy src/ tests/ || echo "Mypy checks failed but continuing..."
 
-    # Placeholder: Future Framework Unit Tests
-    # - name: Run Framework Unit Tests
-    #   run: pytest tests/framework/
+    - name: Run Framework Unit Tests
+      run: |
+        export PYTHONPATH=$PYTHONPATH:$(pwd)/src
+        pytest tests/framework/
