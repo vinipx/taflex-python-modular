@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 
-**TAFLEX PY** is a high-performance, enterprise-grade test automation framework built on Python, designed for unified orchestration across **Web, API, Mobile, and Contract** testing.
+**TAFLEX PY** is a high-performance, enterprise-grade test automation framework built on Python, designed for unified orchestration across **Web, API, Mobile, Contract, and BDD (pytest-bdd)** testing.
 
 By leveraging the **Strategy Pattern** and a modular architecture, TAFLEX PY allows teams to write tests once and execute them across multiple platforms and environments with zero code changes.
 
