@@ -1,12 +1,10 @@
 import pytest
 
 def pytest_configure(config):
-    # Dynamically detect modules
     config.addinivalue_line("markers", "api: mark test as api test")
     config.addinivalue_line("markers", "web: mark test as web test")
     config.addinivalue_line("markers", "mobile: mark test as mobile test")
 
-    # Load ReportPortal settings from AppConfig if not already set in CLI/ini
     from taflex.core.config.app_config import AppConfig
     app_config = AppConfig()
 
