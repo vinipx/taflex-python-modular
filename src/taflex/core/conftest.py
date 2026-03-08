@@ -1,67 +1,66 @@
 import pytest
+from typing import Generator
+from taflex.core.config.app_config import AppConfig
+
+@pytest.fixture(scope="session")
+def base_config() -> AppConfig:
+    """Session-scoped fixture to provide the base application configuration."""
+    return AppConfig()
 
 def pytest_configure(config):
+    """Register markers and configure reporting integrations."""
     config.addinivalue_line("markers", "api: mark test as api test")
     config.addinivalue_line("markers", "web: mark test as web test")
     config.addinivalue_line("markers", "mobile: mark test as mobile test")
+    config.addinivalue_line("markers", "bdd: mark test as bdd test")
 
-    from taflex.core.config.app_config import AppConfig
+    # Load configuration once for reporting setup
     app_config = AppConfig()
-
-    # Map AppConfig/ENV variables to pytest-reportportal internal config names
-    rp_mapping = {
-        "rp_endpoint": app_config.rp_endpoint,
-        "rp_api_key": app_config.rp_api_key or app_config.rp_uuid,
-        "rp_project": app_config.rp_project,
-        "rp_launch": app_config.rp_launch,
-    }
-
+    
     if "reportportal" in app_config.reporters:
         config.option.rp_enabled = True
-        for key, value in rp_mapping.items():
-            if value and not config.getoption(key, default=None):
-                config.option.__dict__[key] = value
+        config.option.rp_endpoint = app_config.rp_endpoint
+        config.option.rp_api_key = app_config.rp_api_key or app_config.rp_uuid
+        config.option.rp_project = app_config.rp_project
+        config.option.rp_launch = app_config.rp_launch
 
     if "xray" in app_config.reporters:
         config.option.jira_xray = True
 
-@pytest.fixture
-def web_driver():
+def _manage_driver_lifecycle(config_instance: AppConfig) -> Generator:
+    """Helper to manage the full lifecycle of a driver instance."""
     from taflex.core.drivers.driver_factory import DriverFactory
-    from taflex.core.config.app_config import AppConfig
-    config = AppConfig().model_copy(update={'execution_mode': 'web'})
-    driver_instance = DriverFactory.create(config)
-    driver_instance.start()
-    yield driver_instance
-    driver_instance.stop()
-
-@pytest.fixture
-def api_driver():
-    from taflex.core.drivers.driver_factory import DriverFactory
-    from taflex.core.config.app_config import AppConfig
-    config = AppConfig().model_copy(update={'execution_mode': 'api'})
-    driver_instance = DriverFactory.create(config)
-    driver_instance.start()
-    yield driver_instance
-    driver_instance.stop()
-
-@pytest.fixture
-def mobile_driver():
-    from taflex.core.drivers.driver_factory import DriverFactory
-    from taflex.core.config.app_config import AppConfig
-    config = AppConfig().model_copy(update={'execution_mode': 'mobile'})
-    driver_instance = DriverFactory.create(config)
-    driver_instance.start()
-    yield driver_instance
-    driver_instance.stop()
-
-@pytest.fixture
-def driver(request):
-    from taflex.core.drivers.driver_factory import DriverFactory
-    from taflex.core.config.app_config import AppConfig
     
-    config = AppConfig()
+    driver_instance = DriverFactory.create(config_instance)
+    driver_instance.start()
     
+    yield driver_instance
+    
+    driver_instance.stop()
+
+@pytest.fixture
+def web_driver(base_config: AppConfig):
+    """Fixture for explicit Web UI testing."""
+    config = base_config.model_copy(update={'execution_mode': 'web'})
+    yield from _manage_driver_lifecycle(config)
+
+@pytest.fixture
+def api_driver(base_config: AppConfig):
+    """Fixture for explicit API testing."""
+    config = base_config.model_copy(update={'execution_mode': 'api'})
+    yield from _manage_driver_lifecycle(config)
+
+@pytest.fixture
+def mobile_driver(base_config: AppConfig):
+    """Fixture for explicit Mobile testing."""
+    config = base_config.model_copy(update={'execution_mode': 'mobile'})
+    yield from _manage_driver_lifecycle(config)
+
+@pytest.fixture
+def driver(request, base_config: AppConfig):
+    """Generic driver fixture that resolves strategy via markers or config."""
+    config = base_config.model_copy()
+
     # Override execution_mode if marker is present
     if request.node.get_closest_marker("api"):
         config.execution_mode = "api"
@@ -69,30 +68,17 @@ def driver(request):
         config.execution_mode = "web"
     elif request.node.get_closest_marker("mobile"):
         config.execution_mode = "mobile"
-    
-    # Create the correct driver based on EXECUTION_MODE in .env or marker override
-    driver_instance = DriverFactory.create(config)
-    
-    # Start driver (launches browser, or init API client, or starts Appium)
-    driver_instance.start()
-    
-    yield driver_instance
-    
-    # Teardown
-    driver_instance.stop()
+
+    yield from _manage_driver_lifecycle(config)
 
 @pytest.fixture
-def pact():
+def pact(base_config: AppConfig):
+    """Fixture for Pact contract testing."""
     from taflex.contract.pact_manager import PactManager
-    from taflex.core.config.app_config import AppConfig
     
-    config = AppConfig()
-    pact_manager = PactManager(config)
-    
-    # Start Pact mock service
+    pact_manager = PactManager(base_config)
     pact_manager.start_service()
     
     yield pact_manager
     
-    # Stop Pact mock service and verify
     pact_manager.stop_service()
