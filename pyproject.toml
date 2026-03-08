@@ -25,3 +25,31 @@ mobile = ["Appium-Python-Client"]
 bdd = ["pytest-bdd"]
 contract = ["pact-python"]
 all = ["taflex-py[api,web,mobile,bdd,contract]"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
+markers = [
+    "api: mark test as api test",
+    "web: mark test as web test",
+    "mobile: mark test as mobile test",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+mypy_path = "src"
+namespace_packages = true
+explicit_package_bases = true

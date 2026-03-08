@@ -22,11 +22,20 @@ A modular, enterprise-grade Python test automation framework designed for high-p
 
 ## 🛠️ Installation & Setup
 
-We provide a project scaffolding wizard to set up your test automation environment instantly. This script handles module selection, reporting tools, and CI/CD configuration.
+We provide an initialization script for developers working on the framework and a project scaffolding wizard for creating new projects.
 
-### Quickstart Wizard
+### Framework Initialization (For Developers)
+If you've cloned this repository to work on the framework itself or run the existing tests:
 ```bash
-# Clone the repository and run the setup wizard
+chmod +x init.sh
+./init.sh
+source .venv/bin/activate
+```
+This script creates a virtual environment, installs all dependencies in editable mode, and sets up Playwright.
+
+### Quickstart Wizard (For New Projects)
+To generate a new test automation project using `taflex-py` as a template:
+```bash
 chmod +x setup.sh
 ./setup.sh
 ```
