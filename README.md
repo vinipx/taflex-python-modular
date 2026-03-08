@@ -36,8 +36,8 @@ This script creates a virtual environment, installs all dependencies in editable
 ### Quickstart Wizard (For New Projects)
 To generate a new test automation project using `taflex-py` as a template:
 ```bash
-chmod +x setup.sh
-./setup.sh
+chmod +x scaffold.sh
+./scaffold.sh
 ```
 
 The wizard will guide you through:
