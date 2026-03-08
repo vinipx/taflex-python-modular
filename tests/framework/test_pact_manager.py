@@ -17,8 +17,8 @@ def test_pact_manager_initialization(mock_pact_class, mock_config):
     manager = PactManager(mock_config)
     
     mock_pact_class.assert_called_once_with(
-        Consumer="test-consumer",
-        Provider="test-provider",
+        consumer="test-consumer",
+        provider="test-provider",
         pact_dir="test-pacts"
     )
     assert manager.pact == mock_pact_class.return_value
