@@ -1,5 +1,11 @@
 # TAFLEX PY Modular
 
+[![CI](https://github.com/vinipx/taflex-python-modular/actions/workflows/ci.yml/badge.svg)](https://github.com/vinipx/taflex-python-modular/actions/workflows/ci.yml)
+[![Docs](https://github.com/vinipx/taflex-python-modular/actions/workflows/docs.yml/badge.svg)](https://vinipx.github.io/taflex-python-modular/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/release/python-3100/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+
 **TAFLEX PY** is a high-performance, enterprise-grade test automation framework built on Python, designed for unified orchestration across **Web, API, Mobile, and Contract** testing.
 
 By leveraging the **Strategy Pattern** and a modular architecture, TAFLEX PY allows teams to write tests once and execute them across multiple platforms and environments with zero code changes.
