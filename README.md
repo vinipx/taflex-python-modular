@@ -5,6 +5,11 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/release/python-3100/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+[![Playwright](https://img.shields.io/badge/playwright-1.58.0-green.svg)](https://playwright.dev/python/)
+[![HTTPX](https://img.shields.io/badge/httpx-0.28.1-blue.svg)](https://www.python-httpx.org/)
+[![Appium](https://img.shields.io/badge/appium-5.2.7-orange.svg)](https://appium.io/)
+[![Pact](https://img.shields.io/badge/pact-3.2.1-red.svg)](https://pact.io/)
+[![pytest-bdd](https://img.shields.io/badge/pytest--bdd-8.1.0-brightgreen.svg)](https://github.com/pytest-dev/pytest-bdd)
 
 **TAFLEX PY** is a high-performance, enterprise-grade test automation framework built on Python, designed for unified orchestration across **Web, API, Mobile, Contract, and BDD (pytest-bdd)** testing.
 
