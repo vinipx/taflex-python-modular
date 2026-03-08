@@ -225,7 +225,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-test:
+  build-and-validate:
     runs-on: ubuntu-latest
 
     steps:
@@ -251,33 +251,39 @@ jobs:
     - name: Type check with Mypy
       run: mypy src/ tests/ || echo "Mypy checks failed but continuing..."
 
-    - name: Run Tests
+    - name: Run Framework Tests
       run: pytest
 EOF
 
 if [[ " ${reports[*]} " =~ " allure " ]]; then
-cat <<EOF >> "$project_path/.github/workflows/ci.yml"
-    - name: Upload Allure Results
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: allure-results
-        path: reports/allure-results
-        retention-days: 1
-EOF
+    echo "Generating Allure reporting skeleton..."
+cat <<EOF > "$project_path/.github/workflows/allure.yml"
+name: Allure Report
 
-cat <<EOF >> "$project_path/.github/workflows/ci.yml"
+on:
+  workflow_run:
+    workflows: ["CI"] # Change this to your test workflow name
+    types: [completed]
+  workflow_dispatch:
 
-  allure-report:
+permissions:
+  contents: write
+
+jobs:
+  generate-report:
     runs-on: ubuntu-latest
-    needs: build-and-test
-    if: always()
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     steps:
-      - name: Download Allure Results
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download test results
+        # This is a skeleton. You'll need to upload artifacts in your test workflow first.
         uses: actions/download-artifact@v4
         with:
           name: allure-results
           path: reports/allure-results
+        continue-on-error: true
 
       - name: Generate Allure Report
         uses: simple-elf/allure-report-action@master
