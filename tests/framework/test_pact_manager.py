@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 from taflex.contract.pact_manager import PactManager
 from taflex.core.config.app_config import AppConfig
 

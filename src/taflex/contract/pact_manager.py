@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict
 from pact import Pact
 from taflex.core.config.app_config import AppConfig
 from taflex.core.utils.logger import get_logger
@@ -49,7 +49,7 @@ class PactManager:
 
     def stop_service(self):
         """Stop the mock service and verify interactions."""
-        logger.info(f"Stopping Pact mock service and verifying interactions")
+        logger.info("Stopping Pact mock service and verifying interactions")
         if self._is_v3:
             if self._server:
                 # __exit__ in v3 automatically verifies and raises MismatchesError if needed
