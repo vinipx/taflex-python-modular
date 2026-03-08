@@ -213,13 +213,92 @@ fi
 # Handle CI/CD configuration
 if [ "$ci_type" == "github" ]; then
     echo "Configuring GitHub Actions..."
-    if [ -d "$TEMPLATE_DIR/.github" ]; then
-        cp -R "$TEMPLATE_DIR/.github" "$project_path/"
-        # Update GitHub CI to use pip install -e .
-        sed -i '' 's/pip install -r requirements.txt/pip install -e ./' "$project_path/.github/workflows/ci.yml" 2>/dev/null || \
-        sed -i 's/pip install -r requirements.txt/pip install -e ./' "$project_path/.github/workflows/ci.yml"
-    else
-        echo "⚠️  Template .github directory not found!"
+    mkdir -p "$project_path/.github/workflows"
+cat <<EOF > "$project_path/.github/workflows/ci.yml"
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e .
+
+    - name: Install Playwright Browsers
+      run: playwright install --with-deps
+
+    - name: Lint with Ruff
+      run: ruff check .
+
+    - name: Type check with Mypy
+      run: mypy src/ tests/ || echo "Mypy checks failed but continuing..."
+
+    - name: Run Tests
+      run: pytest
+EOF
+
+if [[ " ${reports[*]} " =~ " allure " ]]; then
+cat <<EOF >> "$project_path/.github/workflows/ci.yml"
+    - name: Upload Allure Results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-results
+        path: reports/allure-results
+        retention-days: 1
+EOF
+
+cat <<EOF >> "$project_path/.github/workflows/ci.yml"
+
+  allure-report:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: always()
+    steps:
+      - name: Download Allure Results
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results
+          path: reports/allure-results
+
+      - name: Generate Allure Report
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        with:
+          allure_results: reports/allure-results
+          allure_history: allure-history
+          keep_reports: 20
+
+      - name: Deploy report to Github Pages
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: \${{ secrets.GITHUB_TOKEN }}
+          publish_dir: allure-history
+EOF
+fi
+
+    # Also copy the docs workflow if it exists
+    if [ -f "$TEMPLATE_DIR/.github/workflows/docs.yml" ]; then
+        cp "$TEMPLATE_DIR/.github/workflows/docs.yml" "$project_path/.github/workflows/"
     fi
 elif [ "$ci_type" == "gitlab" ]; then
     echo "Configuring GitLab CI..."
@@ -229,6 +308,8 @@ image: python:3.10
 stages:
   - build
   - lint
+  - test
+  - report
   - deploy
 
 variables:
@@ -254,19 +335,59 @@ lint:
   rules:
     - if: '\$CI_PIPELINE_SOURCE == "push" || \$CI_PIPELINE_SOURCE == "merge_request_event"'
 
+test:
+  stage: test
+  script:
+    - pytest
+  artifacts:
+    when: always
+    paths:
+      - reports/
+    expire_in: 1 week
+  rules:
+    - if: '\$CI_PIPELINE_SOURCE == "push" || \$CI_PIPELINE_SOURCE == "merge_request_event"'
+EOF
+
+if [[ " ${reports[*]} " =~ " allure " ]]; then
+cat <<EOF >> "$project_path/.gitlab-ci.yml"
+
+allure_report:
+  stage: report
+  image: node:18-alpine
+  script:
+    - npm install -g allure-commandline
+    - allure generate reports/allure-results -o allure-report
+  artifacts:
+    paths:
+      - allure-report
+    expire_in: 1 day
+  rules:
+    - if: '\$CI_PIPELINE_SOURCE == "push" || \$CI_PIPELINE_SOURCE == "merge_request_event"'
+EOF
+fi
+
+cat <<EOF >> "$project_path/.gitlab-ci.yml"
+
 pages:
   stage: deploy
   script:
     - pip install mkdocs-material mkdocs-mermaid2-plugin
     - mkdocs build --site-dir public
+EOF
+
+if [[ " ${reports[*]} " =~ " allure " ]]; then
+cat <<EOF >> "$project_path/.gitlab-ci.yml"
+    - mkdir -p public/allure
+    - cp -R allure-report/* public/allure/
+EOF
+fi
+
+cat <<EOF >> "$project_path/.gitlab-ci.yml"
   artifacts:
     paths:
       - public
   rules:
     - if: '\$CI_COMMIT_BRANCH == \$CI_DEFAULT_BRANCH'
-      changes:
-        - "docs/**/*"
-        - "mkdocs.yml"
 EOF
 fi
 
