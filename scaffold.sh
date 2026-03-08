@@ -103,6 +103,14 @@ case "$ci_choice" in
 esac
 
 echo ""
+read -p "Do you want to include Documentation (MkDocs)? [y/n]: " req_docs
+if [[ "$req_docs" =~ ^[Yy]$ ]] || [[ -z "$req_docs" ]]; then
+    req_docs="y"
+else
+    req_docs="n"
+fi
+
+echo ""
 echo "Selected modules: $extras"
 echo "Selected reports: ${reports[*]}"
 echo ""
@@ -206,8 +214,11 @@ for mod in "${modules[@]}"; do
 done
 
 # Copy overrides if it exists (for custom docs style)
-if [ -d "$TEMPLATE_DIR/overrides" ]; then
-    cp -R "$TEMPLATE_DIR/overrides" "$project_path/"
+if [ "$req_docs" == "y" ]; then
+    if [ -d "$TEMPLATE_DIR/docs/overrides" ]; then
+        mkdir -p "$project_path/docs"
+        cp -R "$TEMPLATE_DIR/docs/overrides" "$project_path/docs/"
+    fi
 fi
 
 # Handle CI/CD configuration
@@ -305,8 +316,10 @@ EOF
 fi
 
     # Also copy the docs workflow if it exists
-    if [ -f "$TEMPLATE_DIR/.github/workflows/docs.yml" ]; then
-        cp "$TEMPLATE_DIR/.github/workflows/docs.yml" "$project_path/.github/workflows/"
+    if [ "$req_docs" == "y" ]; then
+        if [ -f "$TEMPLATE_DIR/.github/workflows/docs.yml" ]; then
+            cp "$TEMPLATE_DIR/.github/workflows/docs.yml" "$project_path/.github/workflows/"
+        fi
     fi
 elif [ "$ci_type" == "gitlab" ]; then
     echo "Configuring GitLab CI..."
@@ -374,14 +387,24 @@ allure_report:
 EOF
 fi
 
+if [[ "$req_docs" == "y" ]] || [[ " ${reports[*]} " =~ " allure " ]]; then
 cat <<EOF >> "$project_path/.gitlab-ci.yml"
 
 pages:
   stage: deploy
   script:
+EOF
+
+if [ "$req_docs" == "y" ]; then
+cat <<EOF >> "$project_path/.gitlab-ci.yml"
     - pip install mkdocs-material mkdocs-mermaid2-plugin
     - mkdocs build --site-dir public
 EOF
+else
+cat <<EOF >> "$project_path/.gitlab-ci.yml"
+    - mkdir -p public
+EOF
+fi
 
 if [[ " ${reports[*]} " =~ " allure " ]]; then
 cat <<EOF >> "$project_path/.gitlab-ci.yml"
@@ -397,6 +420,7 @@ cat <<EOF >> "$project_path/.gitlab-ci.yml"
   rules:
     - if: '\$CI_COMMIT_BRANCH == \$CI_DEFAULT_BRANCH'
 EOF
+fi
 fi
 
 # Generate pyproject.toml (Modern standard)
@@ -801,6 +825,7 @@ done
 # ==============================================================================
 # Generate Project Documentation
 # ==============================================================================
+if [ "$req_docs" == "y" ]; then
 mkdir -p "$project_path/docs"
 
 # Copy stylesheets if they exist
@@ -960,7 +985,7 @@ site_description: Scaffolded test automation project with TAFLEX PY
 
 theme:
   name: material
-  custom_dir: overrides
+  custom_dir: docs/overrides
   features:
     - navigation.top
     - navigation.footer
@@ -1042,6 +1067,8 @@ echo "💡 Press Ctrl+C to stop the server."
 mkdocs serve
 EOF
 chmod +x "$project_path/docs.sh"
+
+fi # End if [ "$req_docs" == "y" ]
 
 
 # Generate config.sh script
