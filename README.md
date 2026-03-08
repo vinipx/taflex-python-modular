@@ -1,42 +1,89 @@
-# Website
+# TAFLEX PY Modular
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+**TAFLEX PY** is a high-performance, enterprise-grade test automation framework built on Python, designed for unified orchestration across **Web, API, Mobile, and Contract** testing.
 
-## Installation
+By leveraging the **Strategy Pattern** and a modular architecture, TAFLEX PY allows teams to write tests once and execute them across multiple platforms and environments with zero code changes.
 
-```bash
-yarn
-```
+---
 
-## Local Development
+## 🚀 Key Features
 
-```bash
-yarn start
-```
+- **Unified Driver Interface**: Single `driver` fixture for Playwright (Web), HTTPX (API), and Appium (Mobile).
+- **Behavior-Driven Development (BDD)**: Native Gherkin support via `pytest-bdd` integration.
+- **Enterprise Documentation**: Interactive, built-in MkDocs (Material theme) with automated CI/CD deployment.
+- **Smart Scaffolding**: Interactive CLI wizard to generate lightweight, bespoke projects tailored to your tech stack.
+- **Pact Contract Testing**: Full support for Consumer-Driven Contracts (compatible with `pact-python` v2 and v3+).
+- **Hierarchical Locators**: Externalized JSON-based locator management with Global -> Mode -> Page inheritance.
+- **AI-Ready (MCP)**: Built-in Model Context Protocol server, enabling AI agents to debug and run tests autonomously.
+- **Cloud Grid Integration**: Native support for BrowserStack and SauceLabs.
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+---
 
-## Build
+## 🛠️ Quick Start
 
-```bash
-yarn build
-```
-
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-## Deployment
-
-Using SSH:
+### 1. Installation
+TAFLEX PY requires **Python 3.10+**.
 
 ```bash
-USE_SSH=true yarn deploy
+# Clone the repository
+git clone https://github.com/vinipx/taflex-python-modular.git
+cd taflex-python-modular
+
+# Run the automated setup script
+./init.sh
+source .venv/bin/activate
 ```
 
-Not using SSH:
+### 2. Project Scaffolding
+Create a new, clean automation project using the interactive wizard:
 
 ```bash
-GIT_USER=<Your GitHub username> yarn deploy
+./scaffold.sh
+```
+The wizard will ask which modules (Web, API, Mobile, Contract, BDD) and reporters (Allure, ReportPortal, Xray) you need, then generate a ready-to-run project directory.
+
+### 3. Running Tests
+```bash
+# Run all tests
+pytest
+
+# Run tests with a specific marker
+pytest -m web
+pytest -m bdd
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+---
 
+## 📚 Documentation
+
+TAFLEX PY comes with comprehensive documentation.
+
+- **Local Preview**: Run `./docs.sh` to start the local MkDocs server at `http://localhost:8000`.
+- **Online Version**: [View the latest documentation here](https://vinipx.github.io/taflex-python-modular/).
+
+---
+
+## 🧩 Architecture
+
+The framework follows a modular strategy where the `DriverFactory` resolves the correct automation engine at runtime based on your `.env` configuration or Pytest markers.
+
+```mermaid
+flowchart LR
+    A[Test Suite] --> B[conftest.py]
+    B --> C{DriverFactory}
+    C --> D[Playwright Strategy]
+    C --> E[HTTPX Strategy]
+    C --> F[Appium Strategy]
+```
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](docs/contributing/guidelines.md) for more details.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
