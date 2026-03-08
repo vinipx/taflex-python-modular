@@ -1,59 +1,38 @@
-import os
 import pytest
+from pydantic import ValidationError
 from taflex.core.config.app_config import AppConfig
 
-def test_app_config_default_values():
+def test_app_config_default_values(monkeypatch):
     """Verify default values are set correctly when no env vars are present."""
-    # Temporarily remove relevant env vars
+    # Temporarily remove relevant env vars using monkeypatch
     keys = ["EXECUTION_MODE", "BROWSER", "TIMEOUT_MS", "ENVIRONMENT"]
-    original_values = {key: os.environ.get(key) for key in keys}
     for key in keys:
-        if key in os.environ:
-            del os.environ[key]
+        monkeypatch.delenv(key, raising=False)
             
-    try:
-        config = AppConfig()
-        assert config.execution_mode == "web"
-        assert config.browser == "chromium"
-        assert config.timeout_ms == 30000
-        assert config.environment == "qa"
-    finally:
-        # Restore env vars
-        for key, value in original_values.items():
-            if value is not None:
-                os.environ[key] = value
+    config = AppConfig()
+    assert config.execution_mode == "web"
+    assert config.browser == "chromium"
+    assert config.timeout_ms == 30000
+    assert config.environment == "qa"
 
-def test_app_config_invalid_type_from_env():
+def test_app_config_invalid_type_from_env(monkeypatch):
     """Verify that invalid data types in env vars raise a validation error."""
-    os.environ["TIMEOUT_MS"] = "not_a_number"
-    try:
-        from pydantic import ValidationError
-        with pytest.raises(ValidationError):
-            AppConfig()
-    finally:
-        if "TIMEOUT_MS" in os.environ:
-            del os.environ["TIMEOUT_MS"]
+    monkeypatch.setenv("TIMEOUT_MS", "not_a_number")
+    with pytest.raises(ValidationError):
+        AppConfig()
 
-def test_app_config_extra_env_vars_ignored():
+def test_app_config_extra_env_vars_ignored(monkeypatch):
     """Verify that extra environment variables do not affect the config object."""
-    os.environ["TAFLEX_UNKNOWN_FIELD"] = "some_value"
-    try:
-        config = AppConfig()
-        assert not hasattr(config, "taflex_unknown_field")
-    finally:
-        if "TAFLEX_UNKNOWN_FIELD" in os.environ:
-            del os.environ["TAFLEX_UNKNOWN_FIELD"]
+    monkeypatch.setenv("TAFLEX_UNKNOWN_FIELD", "some_value")
+    config = AppConfig()
+    assert not hasattr(config, "taflex_unknown_field")
 
-def test_app_config_boolean_parsing():
+def test_app_config_boolean_parsing(monkeypatch):
     """Verify that boolean strings are correctly parsed from env vars."""
-    os.environ["HEADLESS"] = "false"
-    try:
-        config = AppConfig()
-        assert config.headless is False
-        
-        os.environ["HEADLESS"] = "true"
-        config = AppConfig()
-        assert config.headless is True
-    finally:
-        if "HEADLESS" in os.environ:
-            del os.environ["HEADLESS"]
+    monkeypatch.setenv("HEADLESS", "false")
+    config = AppConfig()
+    assert config.headless is False
+    
+    monkeypatch.setenv("HEADLESS", "true")
+    config = AppConfig()
+    assert config.headless is True
