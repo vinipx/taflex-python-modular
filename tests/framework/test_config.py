@@ -36,3 +36,14 @@ def test_app_config_boolean_parsing(monkeypatch):
     monkeypatch.setenv("HEADLESS", "true")
     config = AppConfig()
     assert config.headless is True
+
+def test_app_config_pact_fields(monkeypatch):
+    """Verify that Pact-related fields are correctly loaded from environment."""
+    monkeypatch.setenv("PACT_CONSUMER", "custom-consumer")
+    monkeypatch.setenv("PACT_PROVIDER", "custom-provider")
+    monkeypatch.setenv("PACT_DIR", "custom-pacts")
+    
+    config = AppConfig()
+    assert config.pact_consumer == "custom-consumer"
+    assert config.pact_provider == "custom-provider"
+    assert config.pact_dir == "custom-pacts"

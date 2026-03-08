@@ -29,4 +29,11 @@ class AppConfig(BaseSettings):
     xray_client_id: Optional[str] = None
     xray_client_secret: Optional[str] = None
 
+    # Pact settings
+    pact_consumer: str = "taflex-consumer"
+    pact_provider: str = "taflex-provider"
+    pact_dir: str = "pacts"
+    pact_broker_url: Optional[str] = None
+    pact_broker_token: Optional[str] = None
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")

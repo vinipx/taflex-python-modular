@@ -82,3 +82,19 @@ def driver(request):
     
     # Teardown
     driver_instance.stop()
+
+@pytest.fixture
+def pact():
+    from taflex.contract.pact_manager import PactManager
+    from taflex.core.config.app_config import AppConfig
+    
+    config = AppConfig()
+    pact_manager = PactManager(config)
+    
+    # Start Pact mock service
+    pact_manager.start_service()
+    
+    yield pact_manager
+    
+    # Stop Pact mock service and verify
+    pact_manager.stop_service()

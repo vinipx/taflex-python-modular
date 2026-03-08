@@ -479,6 +479,7 @@ cat <<EOF >> "$project_path/.env"
 PACT_ENABLED=true
 PACT_CONSUMER=taflex-consumer
 PACT_PROVIDER=taflex-provider
+PACT_DIR=pacts
 # PACT_BROKER_URL=https://your-pact-broker.com
 # PACT_BROKER_TOKEN=your_broker_token
 # PACT_LOG_LEVEL=info # debug, info, warn, error
@@ -492,6 +493,7 @@ cat <<EOF >> "$project_path/.env"
 PACT_ENABLED=false
 # PACT_CONSUMER=taflex-consumer
 # PACT_PROVIDER=taflex-provider
+# PACT_DIR=pacts
 # PACT_BROKER_URL=https://your-pact-broker.com
 # PACT_BROKER_TOKEN=your_broker_token
 # PACT_LOG_LEVEL=info # debug, info, warn, error
@@ -580,9 +582,28 @@ EOF
     elif [ "$mod" == "contract" ]; then
 cat <<EOF > "$project_path/tests/test_sample_contract.py"
 import pytest
+import requests
 
-def test_example_contract():
-    assert True
+def test_example_contract(pact):
+    """
+    Sample Contract test demonstrating Pact interaction.
+    """
+    expected_body = {"status": "up"}
+    
+    (pact
+     .given("User service is healthy")
+     .upon_receiving("a request for health check")
+     .with_request("GET", "/health")
+     .will_respond_with(200, body=expected_body))
+    
+    # In a real test, this would be your API client or service code
+    # using pact.uri to connect to the mock service
+    response = requests.get(f"{pact.uri}/health")
+    
+    assert response.status_code == 200
+    assert response.json() == expected_body
+    
+    # Pact verification is handled by the fixture teardown
 EOF
     fi
 done
