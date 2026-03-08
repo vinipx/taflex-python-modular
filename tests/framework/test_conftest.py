@@ -78,7 +78,7 @@ def test_driver_fixture_no_marker_uses_env(patch_driver_factory, monkeypatch):
         # Unwrap fixture
         original_fixture_func = getattr(driver_fixture, "__wrapped__", driver_fixture)
         
-        gen = original_fixture_func(request_mock)
+        gen = original_fixture_func(request_mock, base_config=mock_config)
         next(gen)
         
         mock_factory_create.assert_called_once()
@@ -103,5 +103,5 @@ def test_driver_fixture_negative_invalid_mode():
             original_fixture_func = getattr(driver_fixture, "__wrapped__", driver_fixture)
             
             with pytest.raises(ValueError, match="Unsupported execution mode: invalid_mode"):
-                gen = original_fixture_func(request_mock)
+                gen = original_fixture_func(request_mock, base_config=mock_config)
                 next(gen)
