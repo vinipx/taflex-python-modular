@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block announce %}
+<div class="tx-announce">
+  ⚡ TAFLEX PY — Unified Enterprise Test Automation for Web, API & Mobile. 
+  <a target="_blank" rel="noopener noreferrer" href="https://github.com/vinipx/taflex-python-modular">
+    Star us on GitHub <span aria-hidden="true">★</span>
+  </a>
+</div>
+{% endblock %}
+
+{% block header %}
+  {{ super() }}
+  <div class="tx-top-nav-wrapper">
+    <div class="md-grid">
+      <nav class="tx-top-nav-links">
+        <a href="{{ 'index.html' | url }}" class="tx-top-nav-item">Documentation</a>
+        <a href="{{ 'getting-started/quickstart/' | url }}" class="tx-top-nav-item">Getting Started</a>
+        <a href="{{ 'architecture/overview/' | url }}" class="tx-top-nav-item">Architecture</a>
+        <a href="{{ 'tutorials/web-tests/' | url }}" class="tx-top-nav-item">Tutorials</a>
+        <a href="{{ 'guides/mcp-integration/' | url }}" class="tx-top-nav-item">Core Guides</a>
+        <a href="{{ 'api/core-interfaces/' | url }}" class="tx-top-nav-item">API Reference</a>
+      </nav>
+    </div>
+  </div>
+{% endblock %}
