@@ -1,0 +1,92 @@
+site_name: TAFLEX PY
+site_description: Enterprise Test Automation Framework in Python
+site_url: https://vinipx.github.io/taflex-python-modular/
+
+repo_name: vinipx/taflex-python-modular
+repo_url: https://github.com/vinipx/taflex-python-modular
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  custom_dir: overrides
+  features:
+    - navigation.top
+    - navigation.footer
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.action.edit
+  palette:
+    - scheme: slate
+      primary: yellow
+      accent: yellow
+  font:
+    text: Inter
+    code: JetBrains Mono
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - md_in_html
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.blocks.html
+  - pymdownx.magiclink
+
+nav:
+  - Introduction: index.md
+  - Getting Started:
+    - Quickstart: getting-started/quickstart.md
+    - Scaffolding Wizard: getting-started/scaffolding-wizard.md
+    - Configuration: getting-started/configuration.md
+  - Architecture:
+    - Overview: architecture/overview.md
+    - Execution Flow: architecture/execution-flow.md
+  - Tutorials:
+    - Web Testing: tutorials/web-tests.md
+    - BDD Testing: tutorials/bdd-tests.md
+    - API Testing: tutorials/api-tests.md
+    - Mobile Testing: tutorials/mobile-tests.md
+    - Contract Testing: tutorials/contract-testing.md
+    - Testing in the Cloud: tutorials/cloud-execution.md
+  - User Guides:
+    - QA Engineers: guides/qa-engineers.md
+    - Developers: guides/developers.md
+    - Managers: guides/managers.md
+  - Core Guides:
+    - AI-Agent Integration (MCP): guides/mcp-integration.md
+    - Reporting Governance: guides/reporting.md
+    - Pact Testing: guides/pact-testing.md
+    - Locators: guides/locators.md
+    - API Testing: guides/api-testing.md
+    - BDD Testing: guides/bdd-testing.md
+    - Cloud Testing: guides/cloud-testing.md
+    - Database: guides/database.md
+    - Unit Testing: guides/unit-testing.md
+  - API Reference:
+    - Core Interfaces: api/core-interfaces.md
+  - Best Practices:
+    - Test Design: best-practices/test-design.md
+  - Troubleshooting:
+    - Common Issues: troubleshooting/common-issues.md
+  - Contributing:
+    - Guidelines: contributing/guidelines.md
+  - Changelog: changelog.md

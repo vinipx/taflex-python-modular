@@ -1,24 +1,17 @@
 #!/bin/bash
 
 # TAFLEX PY Modular Documentation Runner
-# This script serves the Docusaurus documentation locally.
-
-DOCS_DIR="docs"
-
-if [ ! -d "$DOCS_DIR" ]; then
-    echo "❌ Error: Documentation directory '$DOCS_DIR' not found."
-    exit 1
-fi
+# This script serves the MkDocs documentation locally.
 
 echo "🚀 Preparing TAFLEX PY Modular Documentation..."
 
-# Install dependencies if node_modules doesn't exist
-if [ ! -d "node_modules" ]; then
-    echo "📦 Installing documentation dependencies..."
-    npm install
+# Check if mkdocs is installed
+if ! command -v mkdocs &> /dev/null; then
+    echo "📦 Installing MkDocs and Material theme..."
+    pip install mkdocs-material mkdocs-mermaid2-plugin
 fi
 
-echo "🌐 Starting local documentation server at http://localhost:3000"
+echo "🌐 Starting local documentation server at http://localhost:8000"
 echo "💡 Press Ctrl+C to stop the server."
 
-npm start
+mkdocs serve

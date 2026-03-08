@@ -1,0 +1,310 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+:root {
+  --taflex-white:    #ffffff;
+  --taflex-gray-50:  #fafafa;
+  --taflex-gray-100: #f4f4f5;
+  --taflex-gray-200: #e4e4e7;
+  --taflex-gray-300: #d4d4d8;
+  --taflex-gray-400: #a1a1aa;
+  --taflex-gray-500: #71717a;
+  --taflex-gray-600: #52525b;
+  --taflex-gray-700: #3f3f46;
+  --taflex-gray-800: #27272a;
+  --taflex-gray-900: #18181b;
+  --taflex-black:    #09090b;
+
+  --taflex-yellow-900: #713f12;
+  --taflex-yellow-800: #854d0e;
+  --taflex-yellow-700: #a16207;
+  --taflex-yellow-600: #ca8a04;
+  --taflex-yellow-500: #eab308;
+  --taflex-yellow-400: #facc15;
+  --taflex-yellow-300: #fde047;
+  --taflex-yellow-200: #fef08a;
+  --taflex-yellow-100: #fef9c3;
+  --taflex-yellow-50:  #fefce8;
+
+  --md-primary-fg-color:        #ca8a04;
+  --md-primary-fg-color--light: #eab308;
+  --md-primary-fg-color--dark:  #a16207;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-hue: 0;
+  --md-default-bg-color: #1b1b1d;
+  --md-default-fg-color: #f5f6f7;
+  --md-default-fg-color--light: #a1a1aa;
+  --md-default-fg-color--lighter: #71717a;
+  --md-default-fg-color--lightest: #52525b;
+
+  --md-primary-fg-color:        #facc15;
+  --md-primary-fg-color--light: #fde047;
+  --md-primary-fg-color--dark:  #eab308;
+
+  --md-typeset-color: var(--md-default-fg-color);
+  --md-typeset-a-color: var(--md-primary-fg-color);
+
+  --md-code-bg-color: #282a36; /* Dracula dark theme for code */
+  --md-code-fg-color: #f8f8f2;
+
+  --md-admonition-bg-color: #242526;
+}
+
+/* Header Overrides */
+.md-header {
+  background-color: #242526;
+  border-bottom: 1px solid #1b1b1d;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
+}
+
+/* Sidebar Overrides */
+.md-nav__link--active {
+  color: var(--md-primary-fg-color);
+  font-weight: 600;
+}
+
+/* Headings */
+.md-typeset h1 {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--taflex-gray-100);
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.025em;
+}
+
+.md-typeset h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--taflex-gray-100);
+  border-bottom: 1px solid #3f3f46;
+  padding-bottom: 0.5rem;
+  margin-top: 2.5rem;
+  letter-spacing: -0.025em;
+}
+
+.md-typeset h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--taflex-gray-200);
+  margin-top: 2rem;
+}
+
+/* Custom Hero and Features for index.md */
+.tx-hero {
+  text-align: center;
+  padding: 4.5rem 1rem 3rem;
+}
+
+.tx-hero-badge {
+  display: inline-block;
+  background: rgba(250, 204, 21, 0.15);
+  color: #facc15;
+  padding: 0.4rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(250, 204, 21, 0.3);
+}
+
+.tx-hero h1 {
+  border: none !important;
+  font-size: 3.8rem !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  margin-bottom: 1.25rem !important;
+  padding-bottom: 0 !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.04em !important;
+}
+
+.tx-hero-subtitle {
+  font-size: 1.35rem;
+  color: #d4d4d8;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+.tx-hero-buttons {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+
+.tx-btn {
+  padding: 0.875rem 1.75rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+}
+
+.tx-btn-primary {
+  background: #facc15;
+  color: #09090b !important;
+  box-shadow: 0 4px 14px 0 rgba(250, 204, 21, 0.39);
+}
+
+.tx-btn-primary:hover {
+  background: #fde047;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(250, 204, 21, 0.23);
+}
+
+.tx-btn-secondary {
+  background: #27272a;
+  color: #ffffff !important;
+  border: 1px solid #3f3f46;
+}
+
+.tx-btn-secondary:hover {
+  background: #3f3f46;
+  border-color: #52525b;
+  transform: translateY(-2px);
+}
+
+/* Grid layout for features */
+.tx-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.tx-card {
+  background: #242526;
+  border: 1px solid #3f3f46;
+  border-radius: 12px;
+  padding: 2rem;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.tx-card:hover {
+  transform: translateY(-4px);
+  border-color: #52525b;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.tx-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.tx-card h3 {
+  margin-top: 0 !important;
+  font-size: 1.25rem !important;
+  border: none !important;
+  color: #fff !important;
+}
+
+.tx-card p {
+  color: #a1a1aa;
+  font-size: 0.95rem;
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+
+/* Custom Announcement Bar */
+.tx-announce {
+  background: linear-gradient(90deg, #18181b 0%, #27272a 50%, #18181b 100%);
+  color: #d4d4d8;
+  text-align: center;
+  padding: 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-bottom: 1px solid #3f3f46;
+}
+.tx-announce a {
+  color: #facc15;
+  font-weight: 700;
+  margin-left: 0.5rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.tx-announce a:hover {
+  color: #fde047;
+}
+
+/* Custom Top Navigation Bar (Docusaurus Navbar Style) */
+.md-header {
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+.tx-top-nav-wrapper {
+  background-color: #242526;
+  border-bottom: 1px solid #1b1b1d;
+  padding: 0;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
+}
+.tx-top-nav-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  height: 48px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.tx-top-nav-item {
+  color: #d4d4d8;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  padding: 0.5rem 0;
+}
+.tx-top-nav-item:hover {
+  color: #facc15;
+}
+
+/* --- Sidebar Modernization (Docusaurus Style) --- */
+
+.md-sidebar--primary .md-sidebar__scrollwrap {
+  padding-top: 1rem;
+}
+
+/* Make items look like clickable buttons */
+.md-nav__item .md-nav__link {
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  transition: all 0.2s ease;
+  margin-bottom: 2px;
+  color: #d4d4d8;
+}
+
+.md-nav__item .md-nav__link:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #f5f6f7;
+}
+
+/* Active item styling */
+.md-nav__item--active > .md-nav__link {
+  background-color: rgba(250, 204, 21, 0.1) !important;
+  color: var(--md-primary-fg-color) !important;
+  font-weight: 600;
+}
+
+/* Make parent folders stand out slightly */
+.md-nav__item--nested > .md-nav__link {
+  font-weight: 600;
+  color: #a1a1aa;
+}
+
+/* Refine the expand/collapse arrows */
+.md-nav__icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  transition: transform 0.2s ease;
+}

@@ -38,6 +38,12 @@ if [[ "$req_contract" =~ ^[Yy]$ ]] || [[ -z "$req_contract" ]]; then
     deps+=("pact-python")
 fi
 
+read -p "5) BDD Testing (pytest-bdd)? [y/n]: " req_bdd
+if [[ "$req_bdd" =~ ^[Yy]$ ]] || [[ -z "$req_bdd" ]]; then
+    modules+=("bdd")
+    deps+=("pytest-bdd")
+fi
+
 if [ ${#modules[@]} -eq 0 ]; then
     echo "No modules selected. Defaulting to 'web'."
     modules=("web")
@@ -199,6 +205,11 @@ for mod in "${modules[@]}"; do
     fi
 done
 
+# Copy overrides if it exists (for custom docs style)
+if [ -d "$TEMPLATE_DIR/overrides" ]; then
+    cp -R "$TEMPLATE_DIR/overrides" "$project_path/"
+fi
+
 # Handle CI/CD configuration
 if [ "$ci_type" == "github" ]; then
     echo "Configuring GitHub Actions..."
@@ -218,6 +229,7 @@ image: python:3.10
 stages:
   - build
   - lint
+  - deploy
 
 variables:
   PIP_CACHE_DIR: "\$CI_PROJECT_DIR/.cache/pip"
@@ -241,6 +253,20 @@ lint:
     - mypy src/ tests/ || echo "Mypy checks failed but continuing..."
   rules:
     - if: '\$CI_PIPELINE_SOURCE == "push" || \$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+pages:
+  stage: deploy
+  script:
+    - pip install mkdocs-material mkdocs-mermaid2-plugin
+    - mkdocs build --site-dir public
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: '\$CI_COMMIT_BRANCH == \$CI_DEFAULT_BRANCH'
+      changes:
+        - "docs/**/*"
+        - "mkdocs.yml"
 EOF
 fi
 
@@ -276,6 +302,7 @@ for mod in "${modules[@]}"; do
     if [ "$mod" == "api" ]; then echo "api = [\"httpx\"]" >> "$project_path/pyproject.toml"; fi
     if [ "$mod" == "mobile" ]; then echo "mobile = [\"Appium-Python-Client\"]" >> "$project_path/pyproject.toml"; fi
     if [ "$mod" == "contract" ]; then echo "contract = [\"pact-python\"]" >> "$project_path/pyproject.toml"; fi
+    if [ "$mod" == "bdd" ]; then echo "bdd = [\"pytest-bdd\"]" >> "$project_path/pyproject.toml"; fi
 done
 echo "all = [\"taflex-py-project[$(IFS=,; echo "${modules[*]}")]\"]" >> "$project_path/pyproject.toml"
 
@@ -284,7 +311,7 @@ cat <<EOF >> "$project_path/pyproject.toml"
 [tool.pytest.ini_options]
 addopts = "$pytest_addopts"
 testpaths = ["tests"]
-pythonpath = ["src"]
+pythonpath = ["src", "."]
 filterwarnings = [
     "ignore::DeprecationWarning:pytest_reportportal.plugin",
 ]
@@ -292,6 +319,7 @@ markers = [
     "api: mark test as api test",
     "web: mark test as web test",
     "mobile: mark test as mobile test",
+    "bdd: mark test as bdd test",
 ]
 
 [tool.ruff]
@@ -530,6 +558,7 @@ class SearchPage(BasePage):
     def search_for(self, query):
         self.driver.type(self.SEARCH_INPUT, query)
         self.driver.page.keyboard.press("Enter")
+        self.driver.page.wait_for_load_state("networkidle")
 EOF
 
 cat <<EOF > "$project_path/tests/test_sample_web.py"
@@ -605,6 +634,37 @@ def test_example_contract(pact):
     
     # Pact verification is handled by the fixture teardown
 EOF
+    elif [ "$mod" == "bdd" ]; then
+mkdir -p "$project_path/tests/features"
+cat <<EOF > "$project_path/tests/features/sample.feature"
+Feature: Sample Feature
+  Scenario: Sample Scenario
+    Given I have a driver
+    When I check the driver type
+    Then It should be configured correctly
+EOF
+
+cat <<EOF > "$project_path/tests/test_sample_bdd.py"
+import pytest
+from pytest_bdd import scenario, given, when, then
+
+@pytest.mark.bdd
+@scenario('features/sample.feature', 'Sample Scenario')
+def test_sample_bdd():
+    pass
+
+@given("I have a driver")
+def have_driver(driver):
+    assert driver is not None
+
+@when("I check the driver type")
+def check_driver_type(driver):
+    print(f"Driver type: {driver.driver_type}")
+
+@then("It should be configured correctly")
+def configured_correctly():
+    assert True
+EOF
     fi
 done
 
@@ -613,6 +673,11 @@ done
 # Generate Project Documentation
 # ==============================================================================
 mkdir -p "$project_path/docs"
+
+# Copy stylesheets if they exist
+if [ -d "$TEMPLATE_DIR/docs/stylesheets" ]; then
+    cp -R "$TEMPLATE_DIR/docs/stylesheets" "$project_path/docs/"
+fi
 
 cat <<EOF > "$project_path/docs/README.md"
 # Project Documentation
@@ -733,8 +798,115 @@ def test_contract(pact):
 \`\`\`
 EOF
         echo "* [Contract Testing Guide](contract-testing.md)" >> "$project_path/docs/README.md"
+    elif [ "$mod" == "bdd" ]; then
+cat <<EOF > "$project_path/docs/bdd-testing.md"
+# BDD Testing with pytest-bdd
+
+Behavior-Driven Development (BDD) testing uses \`pytest-bdd\` to write tests in natural language.
+
+## Usage
+
+Write features in \`tests/features/\` and implement step definitions in your test files. The framework automatically injects fixtures like \`driver\` into your step definitions.
+
+\`\`\`python
+from pytest_bdd import scenario, given, when, then
+
+@scenario('features/sample.feature', 'Sample Scenario')
+def test_sample():
+    pass
+
+@given("I have a driver")
+def have_driver(driver):
+    pass
+\`\`\`
+EOF
+        echo "* [BDD Testing Guide](bdd-testing.md)" >> "$project_path/docs/README.md"
     fi
 done
+
+# Generate mkdocs.yml
+cat <<EOF > "$project_path/mkdocs.yml"
+site_name: Taflex Py Test Automation
+site_description: Scaffolded test automation project with TAFLEX PY
+
+theme:
+  name: material
+  custom_dir: overrides
+  features:
+    - navigation.top
+    - navigation.footer
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.action.edit
+  palette:
+    - scheme: slate
+      primary: yellow
+      accent: yellow
+  font:
+    text: Inter
+    code: JetBrains Mono
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - md_in_html
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.blocks.html
+  - pymdownx.magiclink
+
+nav:
+  - Introduction: README.md
+  - Core Architecture: core-architecture.md
+  - Testing Guides:
+EOF
+
+for mod in "${modules[@]}"; do
+    if [ "$mod" == "web" ]; then echo "    - Web Testing: web-testing.md" >> "$project_path/mkdocs.yml"; fi
+    if [ "$mod" == "api" ]; then echo "    - API Testing: api-testing.md" >> "$project_path/mkdocs.yml"; fi
+    if [ "$mod" == "mobile" ]; then echo "    - Mobile Testing: mobile-testing.md" >> "$project_path/mkdocs.yml"; fi
+    if [ "$mod" == "contract" ]; then echo "    - Contract Testing: contract-testing.md" >> "$project_path/mkdocs.yml"; fi
+    if [ "$mod" == "bdd" ]; then echo "    - BDD Testing: bdd-testing.md" >> "$project_path/mkdocs.yml"; fi
+done
+
+# Generate docs.sh script
+cat <<EOF > "$project_path/docs.sh"
+#!/bin/bash
+echo "============================================"
+echo "  taflex-py - Documentation Server"
+echo "============================================"
+
+# Check if mkdocs is installed
+if ! command -v mkdocs &> /dev/null; then
+    echo "📦 Installing MkDocs and Material theme..."
+    pip install mkdocs-material mkdocs-mermaid2-plugin
+fi
+
+echo "🌐 Starting local documentation server at http://localhost:8000"
+echo "💡 Press Ctrl+C to stop the server."
+
+mkdocs serve
+EOF
+chmod +x "$project_path/docs.sh"
 
 
 # Generate config.sh script

@@ -31,7 +31,7 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src"]
+pythonpath = ["src", "."]
 filterwarnings = [
     "ignore::DeprecationWarning",
 ]
@@ -39,6 +39,7 @@ markers = [
     "api: mark test as api test",
     "web: mark test as web test",
     "mobile: mark test as mobile test",
+    "bdd: mark test as bdd test",
 ]
 
 [tool.ruff]
