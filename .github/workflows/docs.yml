@@ -33,5 +33,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install mkdocs-material mkdocs-mermaid2-plugin
 
-      - name: Deploy Documentation
-        run: mkdocs gh-deploy --force
+      - name: Build Documentation
+        run: mkdocs build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          keep_files: true

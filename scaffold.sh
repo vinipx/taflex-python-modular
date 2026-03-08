@@ -293,6 +293,8 @@ cat <<EOF >> "$project_path/.github/workflows/ci.yml"
         with:
           github_token: \${{ secrets.GITHUB_TOKEN }}
           publish_dir: allure-history
+          destination_dir: allure-report
+          keep_files: true
 EOF
 fi
 
@@ -377,8 +379,8 @@ EOF
 
 if [[ " ${reports[*]} " =~ " allure " ]]; then
 cat <<EOF >> "$project_path/.gitlab-ci.yml"
-    - mkdir -p public/allure
-    - cp -R allure-report/* public/allure/
+    - mkdir -p public/allure-report
+    - cp -R allure-report/* public/allure-report/
 EOF
 fi
 
@@ -1008,6 +1010,12 @@ for mod in "${modules[@]}"; do
     if [ "$mod" == "contract" ]; then echo "    - Contract Testing: contract-testing.md" >> "$project_path/mkdocs.yml"; fi
     if [ "$mod" == "bdd" ]; then echo "    - BDD Testing: bdd-testing.md" >> "$project_path/mkdocs.yml"; fi
 done
+
+if [[ " ${reports[*]} " =~ " allure " ]]; then
+cat <<EOF >> "$project_path/mkdocs.yml"
+  - Execution Reports: allure-report/
+EOF
+fi
 
 # Generate docs.sh script
 cat <<EOF > "$project_path/docs.sh"
