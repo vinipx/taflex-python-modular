@@ -608,6 +608,135 @@ EOF
     fi
 done
 
+
+# ==============================================================================
+# Generate Project Documentation
+# ==============================================================================
+mkdir -p "$project_path/docs"
+
+cat <<EOF > "$project_path/docs/README.md"
+# Project Documentation
+
+Welcome to your generated TAFLEX PY Modular project.
+This directory contains essential guides and tutorials tailored to your selected stack.
+
+* [Core Framework Architecture](core-architecture.md)
+EOF
+
+cat <<EOF > "$project_path/docs/core-architecture.md"
+# Core Framework Architecture
+
+## Configuration (\`.env\`)
+TAFLEX PY uses Pydantic to strictly validate configuration from your \`.env\` file via the \`AppConfig\` class.
+When you run tests, \`conftest.py\` instantiates this config and passes it to the \`DriverFactory\`.
+
+## DriverFactory and conftest.py
+The core of the execution lies in the \`DriverFactory\`. Depending on the \`EXECUTION_MODE\` in your \`.env\` or the Pytest marker applied to your test (e.g., \`@pytest.mark.api\`), the Factory will spin up the correct client (\`PlaywrightDriver\`, \`HttpxClient\`, etc.) without you having to change your test logic.
+
+To write a test, simply request the \`driver\` fixture:
+\`\`\`python
+def test_example(driver):
+    pass
+\`\`\`
+EOF
+
+for mod in "${modules[@]}"; do
+    if [ "$mod" == "web" ]; then
+cat <<EOF > "$project_path/docs/web-testing.md"
+# Web Testing with Playwright
+
+Web testing is powered by Playwright. The framework automatically handles browser contexts, page creation, and cleanup.
+
+## Page Object Model
+Use the \`BasePage\` to create your page objects.
+
+\`\`\`python
+from taflex.core.drivers.base_page import BasePage
+
+class LoginPage(BasePage):
+    URL = "https://example.com/login"
+    USERNAME_INPUT = "#username"
+    
+    def login(self, username):
+        self.navigate_to(self.URL)
+        self.driver.type(self.USERNAME_INPUT, username)
+\`\`\`
+
+## Running Tests
+Run all web tests:
+\`\`\`bash
+pytest -m web
+\`\`\`
+EOF
+        echo "* [Web Testing Guide](web-testing.md)" >> "$project_path/docs/README.md"
+    elif [ "$mod" == "api" ]; then
+cat <<EOF > "$project_path/docs/api-testing.md"
+# API Testing with HTTPX
+
+API testing relies on the high-performance \`httpx\` library. The driver fixture will yield an \`HttpxClient\` when the test is marked with \`@pytest.mark.api\`.
+
+## Usage
+
+\`\`\`python
+import pytest
+
+@pytest.mark.api
+def test_get_users(driver):
+    response = driver.get("/users/1")
+    assert response.status_code == 200
+    assert "name" in response.json()
+\`\`\`
+
+## Running Tests
+Run all API tests:
+\`\`\`bash
+pytest -m api
+\`\`\`
+EOF
+        echo "* [API Testing Guide](api-testing.md)" >> "$project_path/docs/README.md"
+    elif [ "$mod" == "mobile" ]; then
+cat <<EOF > "$project_path/docs/mobile-testing.md"
+# Mobile Testing with Appium
+
+Mobile testing connects to an Appium Server. Make sure your \`.env\` file has the correct \`APPIUM_SERVER_URL\` and \`PLATFORM_NAME\`.
+
+## Usage
+
+The \`AppiumDriver\` inherits from \`UiDriver\` and wraps the underlying WebDriver instance. You can access the raw Appium driver via \`driver.driver\` if you need native Appium commands.
+
+## Running Tests
+Run all Mobile tests:
+\`\`\`bash
+pytest -m mobile
+\`\`\`
+EOF
+        echo "* [Mobile Testing Guide](mobile-testing.md)" >> "$project_path/docs/README.md"
+    elif [ "$mod" == "contract" ]; then
+cat <<EOF > "$project_path/docs/contract-testing.md"
+# Contract Testing with Pact
+
+Contract testing prevents breaking changes between microservices. The \`pact\` fixture provides a \`PactManager\` instance initialized with your consumer/provider names from \`.env\`.
+
+## Usage
+
+\`\`\`python
+def test_contract(pact):
+    expected_body = {"status": "up"}
+    
+    (pact
+     .given("Service is up")
+     .upon_receiving("a health check")
+     .with_request("GET", "/health")
+     .will_respond_with(200, body=expected_body))
+     
+    # Make request to pact.uri...
+\`\`\`
+EOF
+        echo "* [Contract Testing Guide](contract-testing.md)" >> "$project_path/docs/README.md"
+    fi
+done
+
+
 # Generate config.sh script
 cat <<EOF > "$project_path/config.sh"
 #!/bin/bash
