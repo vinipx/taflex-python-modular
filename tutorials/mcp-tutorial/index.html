@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://vinipx.github.io/taflex-python-modular/tutorials/api-tests/">
+        <link rel="canonical" href="https://vinipx.github.io/taflex-python-modular/tutorials/mcp-tutorial/">
       
       
-        <link rel="prev" href="../bdd-tests/">
+        <link rel="prev" href="../cloud-execution/">
       
       
-        <link rel="next" href="../mobile-tests/">
+        <link rel="next" href="../../guides/qa-engineers/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>API Testing - TAFLEX PY</title>
+        <title>MCP Support Tutorial - TAFLEX PY</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#api-testing-tutorial" class="md-skip">
+        <a href="#mcp-support-tutorial" class="md-skip">
           Skip to content
         </a>
       
@@ -132,7 +132,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              API Testing
+              MCP Support Tutorial
             
           </span>
         </div>
@@ -691,37 +691,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    API Testing
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../api-tests/" class="md-nav__link">
         
   
   
@@ -737,104 +710,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-hybrid-approach-playwright" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Hybrid Approach (Playwright)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="1. Hybrid Approach (Playwright)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#creating-the-test" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Creating the Test
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-specialized-approach-httpx-pytest" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Specialized Approach (HTTPX + Pytest)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. Specialized Approach (HTTPX + Pytest)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#creating-the-test_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Creating the Test
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-which-one-should-i-choose" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Which one should I choose?
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-best-practices" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Best Practices
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -928,10 +803,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../mcp-tutorial/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Support Tutorial
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -947,6 +849,120 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scenario-ai-assisted-test-creation-and-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario: AI-Assisted Test Creation and Execution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scenario: AI-Assisted Test Creation and Execution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-requesting-a-scaffold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Requesting a Scaffold
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-learning-framework-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Learning Framework Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-writing-the-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Writing the Test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-configuring-the-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Configuring the Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-running-and-debugging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Running and Debugging
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1829,22 +1845,77 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-hybrid-approach-playwright" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Hybrid Approach (Playwright)
+        Prerequisites
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="1. Hybrid Approach (Playwright)">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scenario-ai-assisted-test-creation-and-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario: AI-Assisted Test Creation and Execution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scenario: AI-Assisted Test Creation and Execution">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#creating-the-test" class="md-nav__link">
+  <a href="#step-1-requesting-a-scaffold" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Creating the Test
+        Step 1: Requesting a Scaffold
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-learning-framework-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Learning Framework Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-writing-the-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Writing the Test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-configuring-the-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Configuring the Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-running-and-debugging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Running and Debugging
       
     </span>
   </a>
@@ -1857,49 +1928,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-specialized-approach-httpx-pytest" class="md-nav__link">
+  <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Specialized Approach (HTTPX + Pytest)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. Specialized Approach (HTTPX + Pytest)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#creating-the-test_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Creating the Test
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-which-one-should-i-choose" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Which one should I choose?
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-best-practices" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Best Practices
+        Summary
       
     </span>
   </a>
@@ -1923,7 +1955,7 @@
 
 
   
-    <a href="https://github.com/vinipx/taflex-python-modular/edit/main/docs/tutorials/api-tests.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/vinipx/taflex-python-modular/edit/main/docs/tutorials/mcp-tutorial.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1931,104 +1963,72 @@
   
 
 
-<h1 id="api-testing-tutorial">API Testing Tutorial</h1>
-<p>Learn how to master the <strong>Dual API Strategy</strong> in TAFLEX PY. Choose the right tool for the right job: Playwright for integrated flows or HTTPX for high-performance specialized tests.</p>
+<h1 id="mcp-support-tutorial">MCP Support Tutorial</h1>
+<p>In this tutorial, you will learn how to leverage the <strong>Model Context Protocol (MCP)</strong> server embedded in TAFLEX PY to build, run, and debug tests entirely through an AI Assistant like Cursor or Claude Desktop.</p>
 <hr />
-<h2 id="1-hybrid-approach-playwright">1. Hybrid Approach (Playwright)</h2>
-<p><strong>Use case:</strong> Integrated tests where you need to share authentication with a browser or see API calls in a Trace Viewer.</p>
-<h3 id="creating-the-test">Creating the Test</h3>
-<p>Create a standard Playwright spec in <code>tests/api/</code>:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">api</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_hybrid_api_strategy</span><span class="p">(</span><span class="n">api_driver</span><span class="p">):</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="c1"># Perform request</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">response</span> <span class="o">=</span> <span class="n">api_driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/users/1&#39;</span><span class="p">)</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="c1"># Assert</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="mi">200</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">user</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="k">assert</span> <span class="n">user</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Bret&#39;</span>
-</span></code></pre></div>
-<p><strong>How to run:</strong>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pytest<span class="w"> </span>tests/api/
-</span></code></pre></div></p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ol>
+<li>You have a virtual environment with the <code>taflex-py[mcp]</code> dependency installed.</li>
+<li>You have configured your AI client (Cursor, Claude Desktop, etc.) with the <code>taflex-mcp</code> server. (See <a href="../../guides/mcp-integration/">Setup &amp; Configuration</a> if you haven't done this yet).</li>
+</ol>
 <hr />
-<h2 id="2-specialized-approach-httpx-pytest">2. Specialized Approach (HTTPX + Pytest)</h2>
-<p><strong>Use case:</strong> Standalone API testing, contract validation, and extreme execution speed.</p>
-<h3 id="creating-the-test_1">Creating the Test</h3>
-<p>Create a file ending in <code>test_*.py</code> in <code>tests/api/</code>. These tests use <strong>Pytest</strong> as the runner.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src.core.drivers.driver_factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">DriverFactory</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">httpx_driver</span><span class="p">():</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="c1"># Ensure API_PROVIDER=httpx is set in .env</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">driver</span> <span class="o">=</span> <span class="n">DriverFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;api&#39;</span><span class="p">)</span> 
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="k">await</span> <span class="n">driver</span><span class="o">.</span><span class="n">initialize</span><span class="p">({</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>        <span class="n">api_base_url</span><span class="p">:</span> <span class="s1">&#39;https://jsonplaceholder.typicode.com&#39;</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="p">})</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="k">yield</span> <span class="n">driver</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    <span class="n">driver</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_specialized_api_strategy</span><span class="p">(</span><span class="n">httpx_driver</span><span class="p">):</span>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>    <span class="c1"># 2. Perform request</span>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>    <span class="n">response</span> <span class="o">=</span> <span class="n">httpx_driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/users/1&#39;</span><span class="p">)</span>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>    <span class="c1"># 3. Standard Pytest assertions</span>
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span>
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>    <span class="n">user</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>    <span class="k">assert</span> <span class="n">user</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
-</span></code></pre></div>
-<p><strong>How to run:</strong>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Set provider if not default in .env</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nv">API_PROVIDER</span><span class="o">=</span>httpx<span class="w"> </span>pytest<span class="w"> </span>tests/api/
-</span></code></pre></div></p>
+<h2 id="scenario-ai-assisted-test-creation-and-execution">Scenario: AI-Assisted Test Creation and Execution</h2>
+<p>Imagine you have been tasked with adding a new API test to verify that an endpoint returns correct user data. Instead of writing the code manually, running the test, and debugging failures in your terminal, you will ask the AI to do the heavy lifting using the MCP Server.</p>
+<h3 id="step-1-requesting-a-scaffold">Step 1: Requesting a Scaffold</h3>
+<p>In your AI chat interface, ask the agent to scaffold a new test suite. The AI will use the <code>scaffold_test_suite</code> tool to generate the base file.</p>
+<p><strong>Prompt to AI:</strong></p>
+<blockquote>
+<p><em>"Please scaffold a new 'api' test suite for the feature 'User Data'. Ensure it is saved in the correct location."</em></p>
+</blockquote>
+<p><strong>What happens:</strong>
+The AI invokes the <code>scaffold_test_suite</code> tool with arguments <code>suite_type="api"</code> and <code>feature_name="User Data"</code>. The MCP server creates the file <code>tests/api/test_user_data.py</code> containing the TAFLEX PY boilerplate.</p>
+<h3 id="step-2-learning-framework-best-practices">Step 2: Learning Framework Best Practices</h3>
+<p>Before asking the AI to write the actual test logic, you can ask it to read the framework documentation to ensure it uses the correct API implementation strategy.</p>
+<p><strong>Prompt to AI:</strong></p>
+<blockquote>
+<p><em>"Now, read the framework documentation resource <code>docs://guides/api-testing</code> to understand how we do specialized API testing."</em></p>
+</blockquote>
+<p><strong>What happens:</strong>
+The AI requests the <code>docs://guides/api-testing</code> resource. It will read that TAFLEX uses a specialized <code>api_driver</code> fixture leveraging <code>httpx</code> or <code>playwright</code>.</p>
+<h3 id="step-3-writing-the-test">Step 3: Writing the Test</h3>
+<p>Now, ask the AI to write the test using the knowledge it just gained.</p>
+<p><strong>Prompt to AI:</strong></p>
+<blockquote>
+<p><em>"Update <code>tests/api/test_user_data.py</code>. Write a test that uses the <code>api_driver</code> fixture to make a GET request to <code>/users/1</code>. Assert the status code is 200 and the response JSON contains a key 'id' equal to 1. Use the <code>write_test_file</code> tool."</em></p>
+</blockquote>
+<p><strong>What happens:</strong>
+The AI generates the Python code and uses the <code>write_test_file</code> tool to overwrite the file contents, ensuring it adheres to the guidelines.</p>
+<h3 id="step-4-configuring-the-environment">Step 4: Configuring the Environment</h3>
+<p>Let's ensure the framework is configured correctly for this test. We can ask the AI to verify the current configuration and update it if necessary.</p>
+<p><strong>Prompt to AI:</strong></p>
+<blockquote>
+<p><em>"Check the current framework configuration schema and state. Ensure <code>API_PROVIDER</code> is set to <code>httpx</code>. If not, update the <code>.env</code> file using the <code>update_environment_config</code> tool."</em></p>
+</blockquote>
+<p><strong>What happens:</strong>
+1. The AI reads <code>config://schema</code> to understand valid configuration keys.
+2. It reads <code>config://current</code> to check the current <code>api_provider</code> value.
+3. If it is not <code>httpx</code>, it uses the <code>update_environment_config</code> tool to set <code>API_PROVIDER=httpx</code>.</p>
+<h3 id="step-5-running-and-debugging">Step 5: Running and Debugging</h3>
+<p>This is where the magic happens. The AI can run the test itself and diagnose any issues.</p>
+<p><strong>Prompt to AI:</strong></p>
+<blockquote>
+<p><em>"Run pytest on <code>tests/api/test_user_data.py</code> using the <code>run_pytest</code> tool. Analyze the output."</em></p>
+</blockquote>
+<p><strong>What happens:</strong>
+The AI triggers the <code>run_pytest</code> tool. The MCP server spawns a subprocess, executes Pytest, and returns the STDOUT/STDERR. </p>
+<p><strong>If the test fails</strong> (e.g., due to an incorrect URL or assertion mismatch):
+The AI reads the traceback from the output, explains the root cause to you in the chat, and can automatically use <code>write_test_file</code> to fix the code and rerun <code>run_pytest</code> until it passes!</p>
 <hr />
-<h2 id="3-which-one-should-i-choose">3. Which one should I choose?</h2>
-<table>
-<thead>
-<tr>
-<th>Feature</th>
-<th>Playwright Strategy</th>
-<th>HTTPX Strategy</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Runner</strong></td>
-<td>Playwright</td>
-<td>Pytest</td>
-</tr>
-<tr>
-<td><strong>Speed</strong></td>
-<td>Moderate</td>
-<td>Fast (Blazing)</td>
-</tr>
-<tr>
-<td><strong>Trace Viewer</strong></td>
-<td>Yes</td>
-<td>No</td>
-</tr>
-<tr>
-<td><strong>Authentication Sharing</strong></td>
-<td>Native with Browser</td>
-<td>Manual</td>
-</tr>
-<tr>
-<td><strong>Watch Mode</strong></td>
-<td><code>pytest --headed</code> (Using pytest-playwright)</td>
-<td><code>pytest-watch</code> (Auto-watch)</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="4-best-practices">4. Best Practices</h2>
-<ul>
-<li><strong>Shared Locators</strong>: Use <code>src/resources/locators/api/common.json</code> to store endpoints for both strategies.</li>
-<li><strong>Environment URLs</strong>: Always rely on <code>API_BASE_URL</code> in your <code>.env</code>.</li>
-<li><strong>Validation</strong>: For both strategies, the <code>driver</code> wrapper provides consistent <code>status()</code>, .json()<code>, and</code>ok()` methods to keep your code portable.</li>
-</ul>
+<h2 id="summary">Summary</h2>
+<p>By using the MCP server, your AI Assistant has effectively become a pairing partner with direct access to your local test framework. It can:</p>
+<ol>
+<li><strong>Scaffold files</strong></li>
+<li><strong>Read documentation to understand context</strong></li>
+<li><strong>Write and format code</strong></li>
+<li><strong>Modify framework configurations</strong></li>
+<li><strong>Execute tests and autonomously iterate on failures</strong></li>
+</ol>
+<p>This workflow drastically reduces context switching, allowing you to stay focused on high-level architecture while the AI handles the repetitive execution loops.</p>
 
 
 
@@ -2064,7 +2064,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../bdd-tests/" class="md-footer__link md-footer__link--prev" aria-label="Previous: BDD Testing">
+          <a href="../cloud-execution/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Testing in the Cloud">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2074,20 +2074,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                BDD Testing
+                Testing in the Cloud
               </div>
             </div>
           </a>
         
         
           
-          <a href="../mobile-tests/" class="md-footer__link md-footer__link--next" aria-label="Next: Mobile Testing">
+          <a href="../../guides/qa-engineers/" class="md-footer__link md-footer__link--next" aria-label="Next: QA Engineers">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Mobile Testing
+                QA Engineers
               </div>
             </div>
             <div class="md-footer__button md-icon">
