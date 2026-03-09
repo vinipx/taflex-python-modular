@@ -90,6 +90,14 @@ if [[ "$req_xray" =~ ^[Yy]$ ]]; then
 fi
 
 echo ""
+echo "Do you want to enable AI Agent (MCP) support?"
+read -p "Model Context Protocol (MCP) Server [y/n]: " req_mcp
+if [[ "$req_mcp" =~ ^[Yy]$ ]] || [[ -z "$req_mcp" ]]; then
+    modules+=("mcp")
+    deps+=("mcp>=1.0.0")
+fi
+
+echo ""
 echo "Which CI/CD configuration do you need?"
 echo "1) GitHub Actions"
 echo "2) GitLab CI"
@@ -456,8 +464,17 @@ for mod in "${modules[@]}"; do
     if [ "$mod" == "mobile" ]; then echo "mobile = [\"Appium-Python-Client\"]" >> "$project_path/pyproject.toml"; fi
     if [ "$mod" == "contract" ]; then echo "contract = [\"pact-python\"]" >> "$project_path/pyproject.toml"; fi
     if [ "$mod" == "bdd" ]; then echo "bdd = [\"pytest-bdd\"]" >> "$project_path/pyproject.toml"; fi
+    if [ "$mod" == "mcp" ]; then echo "mcp = [\"mcp>=1.0.0\"]" >> "$project_path/pyproject.toml"; fi
 done
 echo "all = [\"taflex-py-project[$(IFS=,; echo "${modules[*]}")]\"]" >> "$project_path/pyproject.toml"
+
+if [[ " ${modules[*]} " =~ " mcp " ]]; then
+cat <<EOF >> "$project_path/pyproject.toml"
+
+[project.scripts]
+taflex-mcp = "taflex.mcp_server:main"
+EOF
+fi
 
 cat <<EOF >> "$project_path/pyproject.toml"
 
