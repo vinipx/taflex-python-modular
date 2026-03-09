@@ -647,6 +647,7 @@ cat <<EOF >> "$project_path/.env"
 
 # --- Jira Xray Integration ---
 XRAY_ENABLED=true
+XRAY_API_BASE_URL=https://xray.cloud.getxray.app
 XRAY_CLIENT_ID=your_xray_client_id
 XRAY_CLIENT_SECRET=your_xray_client_secret
 # XRAY_PROJECT_KEY=PROJ
@@ -659,6 +660,7 @@ cat <<EOF >> "$project_path/.env"
 
 # --- Jira Xray Integration ---
 XRAY_ENABLED=false
+# XRAY_API_BASE_URL=https://xray.cloud.getxray.app
 # XRAY_CLIENT_ID=your_xray_client_id
 # XRAY_CLIENT_SECRET=your_xray_client_secret
 # XRAY_PROJECT_KEY=PROJ
