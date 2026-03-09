@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 # Ensure .env is loaded into os.environ for external plugins (like pytest-jira-xray)
 load_dotenv()
 
-from taflex.core.config.app_config import AppConfig
+from taflex.core.config.app_config import AppConfig  # noqa: E402
 
 @pytest.fixture(scope="session")
 def base_config() -> AppConfig:
