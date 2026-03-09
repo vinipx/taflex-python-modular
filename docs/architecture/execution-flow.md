@@ -22,16 +22,16 @@ While you might have specific tests that explicitly request a `web_driver` or `a
 The Pytest fixtures in `conftest.py` determine *when* a driver is created (e.g., function scope, session scope). The Strategy pattern determines *how* it is created.
 
 * **Separation of Concerns:** `conftest.py` should act as a lightweight routing layer. It should not contain hundreds of lines of code detailing how to configure Playwright context options, parse BrowserStack capabilities for Appium, or set up HTTPX headers. The `DriverFactory` handles the complexity of instantiating the correct engine.
-* **Uniform Interface:** Because of the Strategy pattern, `conftest.py` can blindly call `driver.initialize(config)` and `driver.terminate()` on **any** type of driver. The test runner doesn't care if it's shutting down an API session or closing a mobile emulator.
+* **Uniform Interface:** Because of the Strategy pattern, `conftest.py` can blindly call `driver.start()` and `driver.stop()` on **any** type of driver. The test runner doesn't care if it's shutting down an API session or closing a mobile emulator.
 * **Extensibility:** If your team decides to switch from `httpx` to `requests` for APIs, or add a `mac_desktop` execution mode, you simply create a new Strategy class and register it in the `DriverFactory`. Your `conftest.py` and your test specs remain completely untouched.
 
-## 3. Why test the Factory? (`test_driver_factory.py`)
+## 3. Why test the Factory? (`test_factory.py`)
 
-You will notice unit tests like `test_driver_factory_web` in the `tests/unit/` directory.
+You will notice unit tests like `test_driver_factory_creates_web_driver` in the `tests/framework/` directory.
 
 While `conftest.py` is integration-level code that actually spins up real browsers or APIs (which is slow and requires external dependencies), the unit test exists to verify the **routing logic** of the Factory in complete isolation. 
 
-It ensures that if someone passes `EXECUTION_MODE="api"` and `API_PROVIDER="playwright"`, the framework accurately routes that configuration to the `PlaywrightApiStrategy` class. This protects the core architectural routing from regressions without the overhead of launching an actual browser session.
+It ensures that if someone passes `EXECUTION_MODE="api"`, the framework accurately routes that configuration to the `HttpxClient` class. This protects the core architectural routing from regressions without the overhead of launching an actual browser session.
 
 ## Summary
 

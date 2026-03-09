@@ -30,29 +30,23 @@ flowchart TB
 
     subgraph "Framework Core"
         DF[DriverFactory]
-        LM[LocatorManager]
-        CM[ConfigManager]
-        DB[DatabaseManager]
+        CM[AppConfig]
+        LOG[Logger]
     end
 
     subgraph "Driver Strategies"
         direction TB
         ADS[UiDriver & ApiClient<br/>Protocols]
-        PDS[PlaywrightStrategy]
-        APIS[PlaywrightApiStrategy]
-        HXP[HttpxApiStrategy]
-        AMS[AppiumMobileStrategy]
-    end
-
-    subgraph "Element Wrappers"
-        PE[PlaywrightElement]
-        ME[MobileElement]
+        PD[PlaywrightDriver]
+        HC[HttpxClient]
+        AD[AppiumDriver]
     end
 
     subgraph "External Resources"
-        JSON[JSON Locators]
-        DATA[Test Data]
+        ENV[.env Configuration]
         ALR[Allure Reports]
+        RP[ReportPortal]
+        XRAY[Jira Xray]
     end
 
     TC --> FIX
@@ -61,19 +55,12 @@ flowchart TB
     FIX --> CM
 
     DF --> ADS
-    ADS --> PDS
-    ADS --> APIS
-    ADS --> HXP
-    ADS --> AMS
+    ADS --> PD
+    ADS --> HC
+    ADS --> AD
 
-    PDS --> PE
-    AMS --> ME
-
-    ADS --> LM
-    LM --> JSON
-
-    TC --> DB
-    DB --> DATA
+    CM --> ENV
+    FIX --> ALR
 ```
 
 ## Component Breakdown
@@ -86,47 +73,40 @@ The Driver Layer implements the **Strategy Pattern**, allowing runtime selection
 classDiagram
     class UiDriver {
         <<abstract>>
-        +initialize()
-        +terminate()
-        +navigate_to(str)
+        +start()
+        +stop()
+        +navigate(str)
     }
     class ApiClient {
         <<abstract>>
-        +initialize()
-        +terminate()
+        +start()
+        +stop()
         +get(str)
     }
 
-    class PlaywrightStrategy {
+    class PlaywrightDriver {
         -browser
         -context
         -page
-        +initialize()
-        +navigate_to(str)
+        +start()
+        +navigate(str)
     }
 
-    class PlaywrightApiStrategy {
-        -requestContext
-        +get(str)
-        +post(str, dict)
-    }
-
-    class AppiumMobileStrategy {
+    class AppiumDriver {
         -client
-        +initialize()
-        +navigate_to(str)
+        +start()
+        +navigate(str)
     }
 
-    class HttpxApiStrategy {
+    class HttpxClient {
         -client
         +get(str)
         +post(str, dict)
     }
 
-    UiDriver <|-- PlaywrightStrategy
-    ApiClient <|-- PlaywrightApiStrategy
-    ApiClient <|-- HttpxApiStrategy
-    UiDriver <|-- AppiumMobileStrategy
+    UiDriver <|-- PlaywrightDriver
+    ApiClient <|-- HttpxClient
+    UiDriver <|-- AppiumDriver
 ```
 
 **Key Benefits:**
@@ -134,72 +114,43 @@ classDiagram
 - ✅ Driver changes (e.g., swapping engines) don't affect test specs.
 - ✅ Supports parallel execution with different strategies.
 
-### 2. Locator System
+### 2. Configuration Management
 
-All locators are externalized in JSON files using the **LocatorManager**.
-
-```mermaid
-sequenceDiagram
-    participant Test as Test Spec
-    participant LM as LocatorManager
-    participant File as JSON Files
-
-    Test->>LM: load("login")
-    LM->>File: Read global.json
-    File-->>LM: Global locators
-    LM->>File: Read web/common.json
-    File-->>LM: Web locators
-    LM->>File: Read web/login.json
-    File-->>LM: Page locators
-    LM-->>Test: Merged Locator Cache Ready
-
-    Test->>Test: findElement("username_field")
-    Test->>LM: resolve("username_field")
-    LM-->>Test: "#login-user"
-```
-
-**Locator Loading Order:**
-
-1. `global.json` - Common across all modes.
-2. `{mode}/common.json` - Mode-specific common locators.
-3. `{mode}/{page}.json` - Page/feature-specific locators.
-
-### 3. Configuration Management
-
-The **ConfigManager** provides centralized access to validated environment variables:
+The **AppConfig** (via Pydantic Settings) provides centralized access to validated environment variables:
 
 ```python
-from src.config.config_manager import config_manager
+from taflex.core.config.app_config import AppConfig
 
 # Type-safe access with Pydantic validation
-browser = config_manager.get('browser')
-timeout = config_manager.get('timeout')
+config = AppConfig()
+browser = config.browser
+timeout = config.timeout_ms
 ```
 
-### 4. Test Execution Flow
+### 3. Test Execution Flow
 
 ```mermaid
 sequenceDiagram
     participant Suite as Pytest
     participant Conf as conftest.py
-    participant CM as ConfigManager
+    participant AC as AppConfig
     participant DF as DriverFactory
     participant Strat as Strategy
     participant Test as Spec
 
     Suite->>Conf: Request driver fixture
-    Conf->>CM: Load AppConfig (reads .env)
-    CM-->>Conf: AppConfig object
-    Conf->>Conf: Check EXECUTION_MODE
+    Conf->>AC: Initialize AppConfig (reads .env)
+    AC-->>Conf: AppConfig object
+    Conf->>Conf: Check EXECUTION_MODE or markers
     Conf->>DF: DriverFactory.create(config)
     DF-->>Conf: Strategy Instance (Web/API/Mobile)
-    Conf->>Strat: initialize(config)
+    Conf->>Strat: start()
     Strat-->>Conf: Ready
     Conf->>Test: Execute test(driver)
-    Test->>Strat: perform actions (e.g. navigate_to)
+    Test->>Strat: perform actions (e.g. navigate)
     Strat-->>Test: Returns state/elements
     Test-->>Conf: Test Complete
-    Conf->>Strat: terminate()
+    Conf->>Strat: stop()
     Suite->>Suite: Finalize Reports
 ```
 
