@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "taflex-py": {
+      "command": "taflex-mcp",
+      "args": []
+    }
+  }
+}

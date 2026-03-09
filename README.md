@@ -65,6 +65,23 @@ pytest -m bdd
 
 ---
 
+## 🤖 AI-Agent Integration (MCP)
+
+TAFLEX PY includes a built-in **Model Context Protocol (MCP)** server, transforming your test automation framework into an active service that AI agents (like Claude Desktop, Cursor, or specialized CI/CD agents) can securely interact with.
+
+- **Introspect Configuration**: Agents can read the JSON schema of your configuration and current environment state.
+- **Execute Tests**: Agents can trigger `pytest` executions and analyze standard output/errors to autonomously debug failures.
+- **Scaffold & Maintain**: Agents can read documentation, scaffold new test suites, and write test files natively.
+
+To start the MCP server manually (or point your AI IDE to this command):
+```bash
+# Within your virtual environment
+taflex-mcp
+```
+For full configuration details with Claude Desktop or Cursor, see the [MCP Integration Guide](docs/guides/mcp-integration.md).
+
+---
+
 ## 📚 Documentation
 
 TAFLEX PY comes with comprehensive documentation.

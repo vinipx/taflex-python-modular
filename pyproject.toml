@@ -24,7 +24,11 @@ web = ["playwright"]
 mobile = ["Appium-Python-Client"]
 bdd = ["pytest-bdd"]
 contract = ["pact-python"]
-all = ["taflex-py[api,web,mobile,bdd,contract]"]
+mcp = ["mcp>=1.0.0"]
+all = ["taflex-py[api,web,mobile,bdd,contract,mcp]"]
+
+[project.scripts]
+taflex-mcp = "taflex.mcp_server:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

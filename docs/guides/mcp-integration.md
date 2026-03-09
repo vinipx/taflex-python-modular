@@ -1,70 +1,66 @@
 # AI-Agent Integration (MCP)
 
-TAFLEX PY supports the **Model Context Protocol (MCP)**, an open standard that enables AI agents (like Claude Desktop, IDE assistants, and autonomous agents) to interact directly with the testing framework.
+TAFLEX PY natively supports the **Model Context Protocol (MCP)**, an open standard that enables AI agents (such as Claude Desktop, Cursor, and autonomous CI/CD agents) to interact directly with the testing framework.
 
-By exposing the framework as an MCP server, you transform your test suite from a passive set of files into an active service that AI can explore, execute, and debug.
+By implementing an MCP server using the official `mcp` Python SDK, TAFLEX PY transforms your test suite from a passive repository of code into an active, intelligent service. AI agents can introspect the framework configuration, securely read and write test files, and autonomously execute Pytest to debug failures.
 
 ---
 
 ## 🚀 Key Benefits
 
-- **Autonomous Debugging**: AI agents can read test failures, inspect the relevant source code and locators, and attempt to fix the issue by running specific tests to verify the fix.
-- **Natural Language Discovery**: Ask your AI assistant "Which tests cover the login flow?" or "Show me the locators for the dashboard," and get immediate, accurate answers.
-- **Zero Context Switching**: Run tests and view reports directly within your AI-powered IDE or chat interface without leaving your workflow.
-- **Agent-Ready Architecture**: Future-proof your testing strategy by providing a standardized interface for the next generation of AI developers.
+- **Autonomous Debugging**: AI agents can read test failures directly from `pytest` execution, inspect the source code, and fix issues by running tests repeatedly until they pass.
+- **Dynamic Context**: Rather than guessing environment variables or framework syntax, agents pull the exact Pydantic `AppConfig` JSON schema and framework documentation dynamically.
+- **Safe Execution Boundaries**: The server strictly limits reads and writes to the `src/` and `tests/` directories, ensuring agents cannot manipulate core system files or leak credentials.
+- **Zero Context Switching**: Run tests, inspect locators, and view traces directly within your AI-powered IDE without switching to the terminal.
 
 ---
 
-## 🛠️ Capabilities
+## 🏗️ Architecture
 
-The MCP server exposes the following **Tools** and **Resources** to connected AI agents:
+The TAFLEX MCP implementation (`src/taflex/mcp_server.py`) acts as a bridge between the AI client and your local testing environment over STDIO. It leverages **FastMCP** to expose Resources (context) and Tools (actions).
+
+### Resources (Context & State)
+Resources provide static and dynamic information to the AI agent to help it understand the framework.
+
+- **`config://schema`**: Returns the `AppConfig.model_json_schema()`, instantly teaching the agent what environment variables exist, their types, and default values.
+- **`config://current`**: Returns the active configuration state. Sensitive variables (like `xray_client_secret` or API keys) are automatically masked (`********`) to prevent context leakage.
+- **`docs://{doc_name}`**: Allows the agent to read framework documentation (e.g., `docs://best-practices/test-design`) to learn TAFLEX conventions before generating code.
 
 ### Tools (Actions)
-- **`list_specs`**: Scans the project and returns all available `.py` and `.feature` files.
-- **`list_locators`**: Lists available locator JSON files by mode (web/mobile).
-- **`get_locator`**: Retrieves the content of a specific locator file for inspection.
-- **`run_test`**: Triggers a Playwright execution for a specific file and returns the full STDOUT/STDERR.
+Tools empower the AI agent to perform read/write operations and execute tests.
 
-### Resources (Data)
-- **`taflex://config/current`**: The resolved framework configuration (with secrets like API keys automatically masked).
-- **`taflex://reports/latest`**: A machine-readable JSON summary of the most recent test execution.
-
----
-
-## ⚖️ Pros and Cons
-
-### Pros
-- **Efficiency**: Drastically reduces the time spent copy-pasting logs and file contents into LLMs.
-- **Precision**: Agents get the exact state of the framework and locators, reducing "hallucinations."
-- **Standardization**: Uses the industry-standard Model Context Protocol.
-
-### Cons
-- **Security**: Since the server can execute shell commands (`pytest`), it should only be used in trusted local environments or with strict permission controls.
-- **Statefulness**: Tests may depend on environmental state (databases, clean browser sessions) which the agent must be aware of.
-
----
-
-## 📖 Use Cases
-
-### 1. The "Fix-It" Loop
-When a test fails in CI, a developer can point an AI agent to the failure. The agent uses `taflex://reports/latest` to see the error, `get_locator` to check if a selector changed, and `run_test` to verify a potential fix.
-
-### 2. Test Coverage Audit
-Ask an agent: *"Compare our login spec with the locators in login.json. Are we missing any elements in our tests?"* The agent can fetch both resources and provide a gap analysis.
-
-### 3. Onboarding
-A new engineer can ask the IDE agent: *"How do I run the API tests for the user service?"* The agent can list the specs, show the configuration, and even run a sample test for them.
+- **`update_environment_config(key, value)`**: Safely updates or creates variables in the `.env` file to quickly change browsers, execution modes, or base URLs.
+- **`run_pytest(test_path, marker)`**: Triggers a Pytest run in a subprocess with a strict timeout. It returns the raw `stdout`/`stderr` allowing the agent to parse tracebacks and fix broken tests.
+- **`list_test_files(directory)`**: Globs the repository for `test_*.py` files, allowing the agent to discover existing tests safely.
+- **`read_test_file(relative_path)` & `write_test_file(relative_path, content)`**: Enables the agent to read source/test code and create or update tests. These tools enforce directory jailing (only paths under `tests/` or `src/` are allowed).
+- **`scaffold_test_suite(suite_type, feature_name)`**: Rapidly generates boilerplate test code properly marked with `@pytest.mark.{suite_type}`.
 
 ---
 
 ## ⚙️ Setup & Configuration
 
-To enable AI agents to use TAFLEX PY, you must configure your MCP client to point to the framework's MCP server.
+To enable AI agents to use the TAFLEX PY server, you must configure your MCP client (IDE or Assistant) to point to the `taflex-mcp` executable.
 
-### 1. Identify the Server Path
-The MCP server is located at: `src/mcp/server.py` within your project root. You will need the **absolute path** to this file.
+### 1. Ensure Dependencies are Installed
+First, ensure that the MCP dependencies are installed in your virtual environment:
 
-### 2. Configure Your Client
+```bash
+# Install with the mcp extra
+pip install -e ".[mcp]"
+```
+
+This registers the `taflex-mcp` CLI command within your virtual environment (`.venv/bin/taflex-mcp`).
+
+### 2. Configure Your AI Client
+
+#### Cursor IDE (Recommended)
+1. Go to **Cursor Settings > Features > MCP**.
+2. Click **+ Add New MCP Server**.
+3. **Name**: `taflex-py`
+4. **Type**: `command`
+5. **Command**: Provide the absolute path to the executable inside your virtual environment. 
+   - *Example (Mac/Linux)*: `/path/to/your/project/.venv/bin/taflex-mcp`
+   - *Example (Windows)*: `C:\path\to\your\project\.venv\Scripts\taflex-mcp.exe`
 
 #### Claude Desktop
 Add the following entry to your `claude_desktop_config.json` (typically located in `%APPDATA%/Claude/` on Windows or `~/Library/Application Support/Claude/` on macOS):
@@ -72,79 +68,45 @@ Add the following entry to your `claude_desktop_config.json` (typically located 
 ```json
 {
   "mcpServers": {
-    "taflex": {
-      "command": "python",
-      "args": ["/absolute/path/to/taflex-python-modular/src/mcp/server.py"],
-      "env": {
-        "NODE_ENV": "development"
-      }
+    "taflex-py": {
+      "command": "/absolute/path/to/your/project/.venv/bin/taflex-mcp",
+      "args": []
     }
   }
 }
 ```
 
-#### Gemini CLI
-You can add the server via the command line:
-
-```bash
-gemini mcp add taflex python /absolute/path/to/taflex-python-modular/src/mcp/server.py
-```
-
-Alternatively, add it manually to your `.gemini/settings.json`:
-
-```json
-{
-  "mcpServers": {
-    "taflex": {
-      "command": "python",
-      "args": ["/absolute/path/to/taflex-python-modular/src/mcp/server.py"]
-    }
-  }
-}
-```
-
-#### Cursor
-1. Go to **Settings > Features > MCP**.
-2. Click **+ Add New MCP Server**.
-3. Name: `taflex`
-4. Type: `command`
-5. Command: `python /absolute/path/to/taflex-python-modular/src/mcp/server.py`
-
-#### VS Code (Cline / Roo Code)
-If you are using extensions like **Cline** or **Roo Code**:
-1. Open the extension settings or the MCP configuration file (usually found in the extension's global storage).
+#### Roo Code / Cline (VS Code Extensions)
+1. Open the extension's MCP configuration settings.
 2. Add the server definition:
 
 ```json
 {
   "mcpServers": {
-    "taflex": {
-      "command": "python",
-      "args": ["/absolute/path/to/taflex-python-modular/src/mcp/server.py"]
+    "taflex-py": {
+      "command": "/absolute/path/to/your/project/.venv/bin/taflex-mcp",
+      "args": []
     }
   }
 }
 ```
-
-#### OpenCode
-Add to your `opencode.json` (global in `~/.config/opencode/` or per-project):
-
-```json
-{
-  "mcpServers": {
-    "taflex": {
-      "type": "local",
-      "command": "python",
-      "args": ["/absolute/path/to/taflex-python-modular/src/mcp/server.py"],
-      "enabled": true
-    }
-  }
-}
-```
-
-#### GitHub Copilot
-GitHub Copilot does not natively support MCP servers at this time. To use TAFLEX MCP with Copilot, you may need a bridge extension or an IDE that integrates both (like Cursor).
 
 ### 3. Verify Connection
-1. Restart your AI client or refresh the MCP server list.
-2. You should see `taflex` listed with tools like `run_test`, `list_specs`, and `get_locator`.
+Once configured, restart your AI client or refresh the server list. You should now see the `taflex-py` server and have access to all the tools and resources mentioned above!
+
+---
+
+## 📖 Practical Use Cases
+
+Here are a few ways to interact with your AI agent once the MCP server is connected:
+
+**"Fix my failing tests"**
+> "Please run the pytest suite for `tests/web/test_login.py`. If it fails, read the file, fix the broken locator based on the current JSON, and run it again until it passes."
+
+**"Change the execution environment"**
+> "Update the environment configuration to run tests in headed mode using Firefox instead of Chromium."
+
+**"Scaffold new coverage"**
+> "Scaffold a new API test suite for 'User Profiles'. Read `docs://guides/api-testing` first to understand the framework's API strategy. Then, write a test that verifies a GET request to `/users/profile` returns a 200 status."
+
+For a step-by-step example, check out the [MCP Support Tutorial](../tutorials/mcp-tutorial.md).

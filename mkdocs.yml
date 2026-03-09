@@ -67,6 +67,7 @@ nav:
     - Mobile Testing: tutorials/mobile-tests.md
     - Contract Testing: tutorials/contract-testing.md
     - Testing in the Cloud: tutorials/cloud-execution.md
+    - MCP Support Tutorial: tutorials/mcp-tutorial.md
   - User Guides:
     - QA Engineers: guides/qa-engineers.md
     - Developers: guides/developers.md
