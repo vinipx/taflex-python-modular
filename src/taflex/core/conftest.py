@@ -32,6 +32,10 @@ def pytest_configure(config):
 
     if "xray" in app_config.reporters:
         config.option.jira_xray = True
+        config.option.client_secret_auth = True
+        if app_config.xray_client_id and app_config.xray_client_secret:
+            if "cloud" in os.environ.get("XRAY_API_BASE_URL", "cloud"):
+                config.option.cloud = True
 
 def _manage_driver_lifecycle(config_instance: AppConfig) -> Generator:
     """Helper to manage the full lifecycle of a driver instance."""
