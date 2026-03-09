@@ -15,6 +15,8 @@
 
 By leveraging the **Strategy Pattern** and a modular architecture, TAFLEX PY allows teams to write tests once and execute them across multiple platforms and environments with zero code changes.
 
+📖 **See documentation**: [https://vinipx.github.io/taflex-python-modular](https://vinipx.github.io/taflex-python-modular)
+
 ---
 
 ## 🚀 Key Features
