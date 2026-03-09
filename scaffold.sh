@@ -769,9 +769,19 @@ EOF
 
 cat <<EOF > "$project_path/tests/test_sample_mobile.py"
 import pytest
+import socket
 from tests.pages.app_page import AppPage
 
+def is_appium_running():
+    try:
+        # Check if something is listening on the default Appium port
+        socket.create_connection(("127.0.0.1", 4723), timeout=1)
+        return True
+    except OSError:
+        return False
+
 @pytest.mark.mobile
+@pytest.mark.skipif(not is_appium_running(), reason="Appium Server is not running on port 4723")
 def test_example_mobile_pom(driver):
     """Sample Mobile test using Page Object Model."""
     app_page = AppPage(driver)
