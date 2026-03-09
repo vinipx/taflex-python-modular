@@ -639,10 +639,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-why-test-the-factory-test_driver_factorypy" class="md-nav__link">
+  <a href="#3-why-test-the-factory-test_factorypy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Why test the Factory? (test_driver_factory.py)
+        3. Why test the Factory? (test_factory.py)
       
     </span>
   </a>
@@ -1851,10 +1851,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-why-test-the-factory-test_driver_factorypy" class="md-nav__link">
+  <a href="#3-why-test-the-factory-test_factorypy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Why test the Factory? (test_driver_factory.py)
+        3. Why test the Factory? (test_factory.py)
       
     </span>
   </a>
@@ -1911,13 +1911,13 @@
 <p>The Pytest fixtures in <code>conftest.py</code> determine <em>when</em> a driver is created (e.g., function scope, session scope). The Strategy pattern determines <em>how</em> it is created.</p>
 <ul>
 <li><strong>Separation of Concerns:</strong> <code>conftest.py</code> should act as a lightweight routing layer. It should not contain hundreds of lines of code detailing how to configure Playwright context options, parse BrowserStack capabilities for Appium, or set up HTTPX headers. The <code>DriverFactory</code> handles the complexity of instantiating the correct engine.</li>
-<li><strong>Uniform Interface:</strong> Because of the Strategy pattern, <code>conftest.py</code> can blindly call <code>driver.initialize(config)</code> and <code>driver.terminate()</code> on <strong>any</strong> type of driver. The test runner doesn't care if it's shutting down an API session or closing a mobile emulator.</li>
+<li><strong>Uniform Interface:</strong> Because of the Strategy pattern, <code>conftest.py</code> can blindly call <code>driver.start()</code> and <code>driver.stop()</code> on <strong>any</strong> type of driver. The test runner doesn't care if it's shutting down an API session or closing a mobile emulator.</li>
 <li><strong>Extensibility:</strong> If your team decides to switch from <code>httpx</code> to <code>requests</code> for APIs, or add a <code>mac_desktop</code> execution mode, you simply create a new Strategy class and register it in the <code>DriverFactory</code>. Your <code>conftest.py</code> and your test specs remain completely untouched.</li>
 </ul>
-<h2 id="3-why-test-the-factory-test_driver_factorypy">3. Why test the Factory? (<code>test_driver_factory.py</code>)</h2>
-<p>You will notice unit tests like <code>test_driver_factory_web</code> in the <code>tests/unit/</code> directory.</p>
+<h2 id="3-why-test-the-factory-test_factorypy">3. Why test the Factory? (<code>test_factory.py</code>)</h2>
+<p>You will notice unit tests like <code>test_driver_factory_creates_web_driver</code> in the <code>tests/framework/</code> directory.</p>
 <p>While <code>conftest.py</code> is integration-level code that actually spins up real browsers or APIs (which is slow and requires external dependencies), the unit test exists to verify the <strong>routing logic</strong> of the Factory in complete isolation. </p>
-<p>It ensures that if someone passes <code>EXECUTION_MODE="api"</code> and <code>API_PROVIDER="playwright"</code>, the framework accurately routes that configuration to the <code>PlaywrightApiStrategy</code> class. This protects the core architectural routing from regressions without the overhead of launching an actual browser session.</p>
+<p>It ensures that if someone passes <code>EXECUTION_MODE="api"</code>, the framework accurately routes that configuration to the <code>HttpxClient</code> class. This protects the core architectural routing from regressions without the overhead of launching an actual browser session.</p>
 <h2 id="summary">Summary</h2>
 <ul>
 <li><strong>Specific Fixtures (<code>web_driver</code>, <code>api_driver</code>)</strong>: Used for tests that explicitly require a specific interface regardless of the global run (e.g., an API test creating test data immediately before a Web UI test runs).</li>

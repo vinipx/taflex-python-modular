@@ -1432,25 +1432,25 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#element-wrappers" class="md-nav__link">
+    <nav class="md-nav" aria-label="UiDriver &amp; ApiClient (Abstract Classes)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uidriver-methods" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Element (Wrappers)
+        UiDriver Methods
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Element (Wrappers)">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
-  <a href="#common-methods" class="md-nav__link">
+  <a href="#apiclient-methods" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Common Methods
+        ApiClient Methods
       
     </span>
   </a>
@@ -1463,10 +1463,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#locatormanager" class="md-nav__link">
+  <a href="#appconfig" class="md-nav__link">
     <span class="md-ellipsis">
       
-        LocatorManager
+        AppConfig
       
     </span>
   </a>
@@ -1809,25 +1809,25 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#element-wrappers" class="md-nav__link">
+    <nav class="md-nav" aria-label="UiDriver &amp; ApiClient (Abstract Classes)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uidriver-methods" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Element (Wrappers)
+        UiDriver Methods
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Element (Wrappers)">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
-  <a href="#common-methods" class="md-nav__link">
+  <a href="#apiclient-methods" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Common Methods
+        ApiClient Methods
       
     </span>
   </a>
@@ -1840,10 +1840,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#locatormanager" class="md-nav__link">
+  <a href="#appconfig" class="md-nav__link">
     <span class="md-ellipsis">
       
-        LocatorManager
+        AppConfig
       
     </span>
   </a>
@@ -1879,6 +1879,7 @@
 <p>This page documents the primary interfaces and classes provided by TAFLEX PY.</p>
 <h2 id="uidriver-apiclient-abstract-classes">UiDriver &amp; ApiClient (Abstract Classes)</h2>
 <p>The base protocols for all automation strategies (UI and API).</p>
+<h3 id="uidriver-methods">UiDriver Methods</h3>
 <table>
 <thead>
 <tr>
@@ -1888,70 +1889,44 @@
 </thead>
 <tbody>
 <tr>
-<td>Method</td>
-<td>Description</td>
+<td><code>start()</code></td>
+<td>Initializes the driver session (e.g., launches browser or app).</td>
 </tr>
 <tr>
-<td>--------</td>
-<td>-------------</td>
-</tr>
-<tr>
-<td><code>initialize(config)</code></td>
-<td>Initializes the driver session.</td>
-</tr>
-<tr>
-<td><code>terminate()</code></td>
+<td><code>stop()</code></td>
 <td>Closes the driver session.</td>
 </tr>
 <tr>
-<td><code>navigate_to(url)</code></td>
-<td>Navigates to the specified URL or endpoint (UiDriver).</td>
+<td><code>navigate(url)</code></td>
+<td>Navigates to the specified URL.</td>
 </tr>
 <tr>
-<td><code>get(endpoint)</code></td>
-<td>API GET request (ApiClient).</td>
-</tr>
-</tbody>
-</table>
-<h2 id="element-wrappers">Element (Wrappers)</h2>
-<p>TAFLEX PY wraps native engine elements (Playwright or Appium) to provide a consistent API.</p>
-<h3 id="common-methods">Common Methods</h3>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>click()</code></td>
-<td>Performs a click action.</td>
+<td><code>click(selector)</code></td>
+<td>Clicks an element by its selector.</td>
 </tr>
 <tr>
-<td><code>fill(value)</code></td>
-<td>Fills an input field with the specified value.</td>
+<td><code>type(selector, text)</code></td>
+<td>Types text into an element.</td>
 </tr>
 <tr>
-<td><code>get_text()</code></td>
-<td>Returns the inner text of the element.</td>
+<td><code>get_text(selector)</code></td>
+<td>Returns the inner text of an element.</td>
 </tr>
 <tr>
-<td><code>is_visible()</code></td>
+<td><code>is_visible(selector)</code></td>
 <td>Returns <code>True</code> if the element is visible.</td>
 </tr>
 <tr>
-<td><code>is_enabled()</code></td>
-<td>Returns <code>True</code> if the element is enabled.</td>
+<td><code>wait_for_selector(selector)</code></td>
+<td>Waits for an element to appear in the DOM.</td>
 </tr>
 <tr>
-<td><code>wait_for(**kwargs)</code></td>
-<td>Waits for the element state (visible, hidden, etc).</td>
+<td><code>screenshot(path)</code></td>
+<td>Takes a screenshot and saves it to the path.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="locatormanager">LocatorManager</h2>
-<p>The engine behind hierarchical locator resolution.</p>
+<h3 id="apiclient-methods">ApiClient Methods</h3>
 <table>
 <thead>
 <tr>
@@ -1961,12 +1936,65 @@
 </thead>
 <tbody>
 <tr>
-<td><code>load(page_name)</code></td>
-<td>Loads and merges JSON locator files.</td>
+<td><code>start()</code></td>
+<td>Initializes the API client session.</td>
 </tr>
 <tr>
-<td><code>resolve(logical_name)</code></td>
-<td>Returns the selector associated with the logical name.</td>
+<td><code>stop()</code></td>
+<td>Closes the client session.</td>
+</tr>
+<tr>
+<td><code>get(url, **kwargs)</code></td>
+<td>Performs an HTTP GET request.</td>
+</tr>
+<tr>
+<td><code>post(url, **kwargs)</code></td>
+<td>Performs an HTTP POST request.</td>
+</tr>
+<tr>
+<td><code>put(url, **kwargs)</code></td>
+<td>Performs an HTTP PUT request.</td>
+</tr>
+<tr>
+<td><code>patch(url, **kwargs)</code></td>
+<td>Performs an HTTP PATCH request.</td>
+</tr>
+<tr>
+<td><code>delete(url, **kwargs)</code></td>
+<td>Performs an HTTP DELETE request.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="appconfig">AppConfig</h2>
+<p>The configuration class powered by Pydantic Settings.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>execution_mode</code></td>
+<td><code>"web"</code></td>
+<td>Execution target: <code>web</code>, <code>api</code>, or <code>mobile</code>.</td>
+</tr>
+<tr>
+<td><code>environment</code></td>
+<td><code>"qa"</code></td>
+<td>Target environment for <code>base_url</code> resolution.</td>
+</tr>
+<tr>
+<td><code>browser</code></td>
+<td><code>"chromium"</code></td>
+<td>Playwright browser to use (<code>chromium</code>, <code>firefox</code>, <code>webkit</code>).</td>
+</tr>
+<tr>
+<td><code>timeout_ms</code></td>
+<td><code>30000</code></td>
+<td>Global timeout for operations in milliseconds.</td>
 </tr>
 </tbody>
 </table>

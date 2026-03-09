@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#unit-testing" class="md-skip">
+        <a href="#unit-framework-testing" class="md-skip">
           Skip to content
         </a>
       
@@ -1338,10 +1338,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#running-unit-tests" class="md-nav__link">
+  <a href="#running-framework-tests" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Running Unit Tests
+        Running Framework Tests
       
     </span>
   </a>
@@ -1361,21 +1361,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#configmanager-tests" class="md-nav__link">
+  <a href="#appconfig-tests" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ConfigManager Tests
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#locatormanager-tests" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        LocatorManager Tests
+        AppConfig Tests
       
     </span>
   </a>
@@ -1394,10 +1383,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#databasemanager-tests" class="md-nav__link">
+  <a href="#driver-implementation-tests" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DatabaseManager Tests
+        Driver Implementation Tests
       
     </span>
   </a>
@@ -1834,10 +1823,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#running-unit-tests" class="md-nav__link">
+  <a href="#running-framework-tests" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Running Unit Tests
+        Running Framework Tests
       
     </span>
   </a>
@@ -1857,21 +1846,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#configmanager-tests" class="md-nav__link">
+  <a href="#appconfig-tests" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ConfigManager Tests
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#locatormanager-tests" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        LocatorManager Tests
+        AppConfig Tests
       
     </span>
   </a>
@@ -1890,10 +1868,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#databasemanager-tests" class="md-nav__link">
+  <a href="#driver-implementation-tests" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DatabaseManager Tests
+        Driver Implementation Tests
       
     </span>
   </a>
@@ -1941,23 +1919,21 @@
   
 
 
-<h1 id="unit-testing">Unit Testing</h1>
-<p>TAFLEX PY uses <strong>Pytest</strong> for unit testing its core components. This ensures that the framework's logic (configuration, locators, factory) is reliable independent of the automation engines.</p>
-<h2 id="running-unit-tests">Running Unit Tests</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pytest<span class="w"> </span>tests/unit
+<h1 id="unit-framework-testing">Unit &amp; Framework Testing</h1>
+<p>TAFLEX PY uses <strong>Pytest</strong> for testing its core framework components. This ensures that the framework's logic (configuration, factory, drivers) is reliable independent of the automation engines.</p>
+<h2 id="running-framework-tests">Running Framework Tests</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pytest<span class="w"> </span>tests/framework
 </span></code></pre></div>
 <h2 id="test-structure">Test Structure</h2>
-<p>Unit tests are located in <code>tests/unit/</code> and follow the <code>test_*.py</code> naming convention.</p>
-<h3 id="configmanager-tests">ConfigManager Tests</h3>
-<p>Verifies that environment variables are correctly validated using Pydantic and that default values are applied.</p>
-<h3 id="locatormanager-tests">LocatorManager Tests</h3>
-<p>Ensures that locators are correctly merged from Global, Mode, and Page-specific JSON files.</p>
+<p>Framework tests are located in <code>tests/framework/</code> and follow the <code>test_*.py</code> naming convention.</p>
+<h3 id="appconfig-tests">AppConfig Tests</h3>
+<p>Verifies that environment variables are correctly validated using Pydantic Settings and that default values are applied.</p>
 <h3 id="driverfactory-tests">DriverFactory Tests</h3>
-<p>Checks that the correct driver strategy (Web, API, or Mobile) is instantiated based on the execution mode.</p>
-<h3 id="databasemanager-tests">DatabaseManager Tests</h3>
-<p>Mocks database drivers to verify that queries are correctly routed to PostgreSQL or MySQL connections.</p>
+<p>Checks that the correct driver strategy (<code>PlaywrightDriver</code>, <code>HttpxClient</code>, or <code>AppiumDriver</code>) is instantiated based on the <code>execution_mode</code> in the <code>AppConfig</code>.</p>
+<h3 id="driver-implementation-tests">Driver Implementation Tests</h3>
+<p>Verifies that individual strategies (Web, API, Mobile) correctly implement the <code>UiDriver</code> or <code>ApiClient</code> interfaces and handle lifecycle events (<code>start</code>/<code>stop</code>).</p>
 <h2 id="mocking-in-tests">Mocking in Tests</h2>
-<p>We use Pytest's <code>monkeypatch / unittest.mock</code> to isolate components during testing, especially for filesystem operations (<code>fs</code>) and database drivers.</p>
+<p>We use Pytest's <code>unittest.mock</code> to isolate components during testing. For example, when testing the <code>DriverFactory</code>, we mock the driver classes to verify they are instantiated with the correct configuration without actually launching a browser or client.</p>
 
 
 

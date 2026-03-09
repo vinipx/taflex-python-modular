@@ -617,10 +617,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-locator-system" class="md-nav__link">
+  <a href="#2-configuration-management" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Locator System
+        2. Configuration Management
       
     </span>
   </a>
@@ -628,21 +628,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-configuration-management" class="md-nav__link">
+  <a href="#3-test-execution-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Configuration Management
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-test-execution-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Test Execution Flow
+        3. Test Execution Flow
       
     </span>
   </a>
@@ -1940,10 +1929,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-locator-system" class="md-nav__link">
+  <a href="#2-configuration-management" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Locator System
+        2. Configuration Management
       
     </span>
   </a>
@@ -1951,21 +1940,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-configuration-management" class="md-nav__link">
+  <a href="#3-test-execution-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Configuration Management
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-test-execution-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Test Execution Flow
+        3. Test Execution Flow
       
     </span>
   </a>
@@ -2103,29 +2081,23 @@
 
     subgraph "Framework Core"
         DF[DriverFactory]
-        LM[LocatorManager]
-        CM[ConfigManager]
-        DB[DatabaseManager]
+        CM[AppConfig]
+        LOG[Logger]
     end
 
     subgraph "Driver Strategies"
         direction TB
         ADS[UiDriver &amp; ApiClient&lt;br/&gt;Protocols]
-        PDS[PlaywrightStrategy]
-        APIS[PlaywrightApiStrategy]
-        HXP[HttpxApiStrategy]
-        AMS[AppiumMobileStrategy]
-    end
-
-    subgraph "Element Wrappers"
-        PE[PlaywrightElement]
-        ME[MobileElement]
+        PD[PlaywrightDriver]
+        HC[HttpxClient]
+        AD[AppiumDriver]
     end
 
     subgraph "External Resources"
-        JSON[JSON Locators]
-        DATA[Test Data]
+        ENV[.env Configuration]
         ALR[Allure Reports]
+        RP[ReportPortal]
+        XRAY[Jira Xray]
     end
 
     TC --&gt; FIX
@@ -2134,125 +2106,87 @@
     FIX --&gt; CM
 
     DF --&gt; ADS
-    ADS --&gt; PDS
-    ADS --&gt; APIS
-    ADS --&gt; HXP
-    ADS --&gt; AMS
+    ADS --&gt; PD
+    ADS --&gt; HC
+    ADS --&gt; AD
 
-    PDS --&gt; PE
-    AMS --&gt; ME
-
-    ADS --&gt; LM
-    LM --&gt; JSON
-
-    TC --&gt; DB
-    DB --&gt; DATA</code></pre>
+    CM --&gt; ENV
+    FIX --&gt; ALR</code></pre>
 <h2 id="component-breakdown">Component Breakdown</h2>
 <h3 id="1-driver-layer">1. Driver Layer</h3>
 <p>The Driver Layer implements the <strong>Strategy Pattern</strong>, allowing runtime selection of the appropriate driver implementation.</p>
 <pre class="mermaid"><code>classDiagram
     class UiDriver {
         &lt;&lt;abstract&gt;&gt;
-        +initialize()
-        +terminate()
-        +navigate_to(str)
+        +start()
+        +stop()
+        +navigate(str)
     }
     class ApiClient {
         &lt;&lt;abstract&gt;&gt;
-        +initialize()
-        +terminate()
+        +start()
+        +stop()
         +get(str)
     }
 
-    class PlaywrightStrategy {
+    class PlaywrightDriver {
         -browser
         -context
         -page
-        +initialize()
-        +navigate_to(str)
+        +start()
+        +navigate(str)
     }
 
-    class PlaywrightApiStrategy {
-        -requestContext
-        +get(str)
-        +post(str, dict)
-    }
-
-    class AppiumMobileStrategy {
+    class AppiumDriver {
         -client
-        +initialize()
-        +navigate_to(str)
+        +start()
+        +navigate(str)
     }
 
-    class HttpxApiStrategy {
+    class HttpxClient {
         -client
         +get(str)
         +post(str, dict)
     }
 
-    UiDriver &lt;|-- PlaywrightStrategy
-    ApiClient &lt;|-- PlaywrightApiStrategy
-    ApiClient &lt;|-- HttpxApiStrategy
-    UiDriver &lt;|-- AppiumMobileStrategy</code></pre>
+    UiDriver &lt;|-- PlaywrightDriver
+    ApiClient &lt;|-- HttpxClient
+    UiDriver &lt;|-- AppiumDriver</code></pre>
 <p><strong>Key Benefits:</strong>
 - ✅ Single test codebase for all platforms.
 - ✅ Driver changes (e.g., swapping engines) don't affect test specs.
 - ✅ Supports parallel execution with different strategies.</p>
-<h3 id="2-locator-system">2. Locator System</h3>
-<p>All locators are externalized in JSON files using the <strong>LocatorManager</strong>.</p>
-<pre class="mermaid"><code>sequenceDiagram
-    participant Test as Test Spec
-    participant LM as LocatorManager
-    participant File as JSON Files
-
-    Test-&gt;&gt;LM: load("login")
-    LM-&gt;&gt;File: Read global.json
-    File--&gt;&gt;LM: Global locators
-    LM-&gt;&gt;File: Read web/common.json
-    File--&gt;&gt;LM: Web locators
-    LM-&gt;&gt;File: Read web/login.json
-    File--&gt;&gt;LM: Page locators
-    LM--&gt;&gt;Test: Merged Locator Cache Ready
-
-    Test-&gt;&gt;Test: findElement("username_field")
-    Test-&gt;&gt;LM: resolve("username_field")
-    LM--&gt;&gt;Test: "#login-user"</code></pre>
-<p><strong>Locator Loading Order:</strong></p>
-<ol>
-<li><code>global.json</code> - Common across all modes.</li>
-<li><code>{mode}/common.json</code> - Mode-specific common locators.</li>
-<li><code>{mode}/{page}.json</code> - Page/feature-specific locators.</li>
-</ol>
-<h3 id="3-configuration-management">3. Configuration Management</h3>
-<p>The <strong>ConfigManager</strong> provides centralized access to validated environment variables:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src.config.config_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">config_manager</span>
+<h3 id="2-configuration-management">2. Configuration Management</h3>
+<p>The <strong>AppConfig</strong> (via Pydantic Settings) provides centralized access to validated environment variables:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">taflex.core.config.app_config</span><span class="w"> </span><span class="kn">import</span> <span class="n">AppConfig</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Type-safe access with Pydantic validation</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">browser</span> <span class="o">=</span> <span class="n">config_manager</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;browser&#39;</span><span class="p">)</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">timeout</span> <span class="o">=</span> <span class="n">config_manager</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;timeout&#39;</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">config</span> <span class="o">=</span> <span class="n">AppConfig</span><span class="p">()</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">browser</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">browser</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">timeout</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">timeout_ms</span>
 </span></code></pre></div>
-<h3 id="4-test-execution-flow">4. Test Execution Flow</h3>
+<h3 id="3-test-execution-flow">3. Test Execution Flow</h3>
 <pre class="mermaid"><code>sequenceDiagram
     participant Suite as Pytest
     participant Conf as conftest.py
-    participant CM as ConfigManager
+    participant AC as AppConfig
     participant DF as DriverFactory
     participant Strat as Strategy
     participant Test as Spec
 
     Suite-&gt;&gt;Conf: Request driver fixture
-    Conf-&gt;&gt;CM: Load AppConfig (reads .env)
-    CM--&gt;&gt;Conf: AppConfig object
-    Conf-&gt;&gt;Conf: Check EXECUTION_MODE
+    Conf-&gt;&gt;AC: Initialize AppConfig (reads .env)
+    AC--&gt;&gt;Conf: AppConfig object
+    Conf-&gt;&gt;Conf: Check EXECUTION_MODE or markers
     Conf-&gt;&gt;DF: DriverFactory.create(config)
     DF--&gt;&gt;Conf: Strategy Instance (Web/API/Mobile)
-    Conf-&gt;&gt;Strat: initialize(config)
+    Conf-&gt;&gt;Strat: start()
     Strat--&gt;&gt;Conf: Ready
     Conf-&gt;&gt;Test: Execute test(driver)
-    Test-&gt;&gt;Strat: perform actions (e.g. navigate_to)
+    Test-&gt;&gt;Strat: perform actions (e.g. navigate)
     Strat--&gt;&gt;Test: Returns state/elements
     Test--&gt;&gt;Conf: Test Complete
-    Conf-&gt;&gt;Strat: terminate()
+    Conf-&gt;&gt;Strat: stop()
     Suite-&gt;&gt;Suite: Finalize Reports</code></pre>
 <h2 id="technology-stack">Technology Stack</h2>
 <table>
