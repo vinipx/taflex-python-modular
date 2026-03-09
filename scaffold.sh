@@ -12,7 +12,7 @@ echo "Answer 'y' (yes) or 'n' (no) for each option."
 echo ""
 
 modules=()
-deps=("pytest" "pydantic" "pydantic-settings" "SQLAlchemy" "ruff" "mypy" "pytest-xdist")
+deps=("pytest" "pydantic" "pydantic-settings" "SQLAlchemy" "ruff" "mypy" "pytest-xdist" "radon" "pytest-cov")
 
 read -p "1) Web Testing (Playwright)? [y/n]: " req_web
 if [[ "$req_web" =~ ^[Yy]$ ]] || [[ -z "$req_web" ]]; then
@@ -214,6 +214,12 @@ EOF
 # Copy the core module
 cp -R "$TEMPLATE_DIR/src/taflex/core" "$project_path/src/taflex/"
 
+# Copy codechecks.sh
+if [ -f "$TEMPLATE_DIR/codechecks.sh" ]; then
+    cp "$TEMPLATE_DIR/codechecks.sh" "$project_path/"
+    chmod +x "$project_path/codechecks.sh"
+fi
+
 # Copy selected modules
 for mod in "${modules[@]}"; do
     if [ -d "$TEMPLATE_DIR/src/taflex/$mod" ]; then
@@ -272,6 +278,9 @@ jobs:
 
     - name: Run Framework Tests
       run: pytest
+
+    - name: Run Architecture & Code Coverage Checks
+      run: ./codechecks.sh
 EOF
 
 if [[ " ${reports[*]} " =~ " allure " ]]; then
@@ -368,6 +377,7 @@ test:
   stage: test
   script:
     - pytest
+    - ./codechecks.sh
   artifacts:
     when: always
     paths:
@@ -435,7 +445,7 @@ fi
 echo "Generating pyproject.toml..."
 
 # Prepare dependencies strings for TOML
-base_deps="\"pytest\", \"pydantic\", \"pydantic-settings\", \"SQLAlchemy\", \"ruff\", \"mypy\", \"pytest-xdist\""
+base_deps="\"pytest\", \"pydantic\", \"pydantic-settings\", \"SQLAlchemy\", \"ruff\", \"mypy\", \"pytest-xdist\", \"radon\", \"pytest-cov\""
 for rep in "${reports[@]}"; do
     if [ "$rep" == "allure" ]; then base_deps="$base_deps, \"allure-pytest\""; fi
     if [ "$rep" == "reportportal" ]; then base_deps="$base_deps, \"pytest-reportportal\""; fi
