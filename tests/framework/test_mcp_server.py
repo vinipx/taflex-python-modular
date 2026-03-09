@@ -1,6 +1,9 @@
 import json
 from unittest.mock import patch, MagicMock
 
+import pytest
+pytest.importorskip("mcp", reason="mcp module not found. Skipping MCP tests as it was likely not included in scaffolding.")
+
 from taflex.mcp_server import (
     get_config_schema,
     get_current_config,

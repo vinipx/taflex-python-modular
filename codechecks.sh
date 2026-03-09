@@ -7,7 +7,7 @@ echo "========================================="
 
 echo ""
 echo "[1/2] Checking Architecture (Maintainability Index) with Radon..."
-radon mi . -s
+radon mi . -s -i venv
 
 echo ""
 echo "[2/2] Running Code Coverage with Pytest..."
