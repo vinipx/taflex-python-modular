@@ -15,7 +15,9 @@ dependencies = [
     "SQLAlchemy",
     "ruff",
     "mypy",
-    "pytest-xdist"
+    "pytest-xdist",
+    "radon",
+    "pytest-cov"
 ]
 
 [project.optional-dependencies]
