@@ -65,6 +65,22 @@ pytest -m bdd
 
 ---
 
+## 🧪 Quality Assurance & Code Checks
+
+TAFLEX PY enforces high code quality and maintainability standards. It includes a built-in `./codechecks.sh` script that validates both the architecture and the test coverage of the framework.
+
+- **Architecture (Maintainability Index)**: Evaluated using [Radon](https://radon.readthedocs.io/), ensuring the codebase remains clean, readable, and easy to maintain over time.
+- **Code Coverage**: Measured using `pytest-cov`, verifying that core framework utilities and implementations are thoroughly tested.
+
+These checks are integrated into our scaffolded projects by default and run automatically as part of the **CI pipelines** (GitHub Actions & GitLab CI) to guarantee quality on every commit and pull request.
+
+To run the checks locally:
+```bash
+./codechecks.sh
+```
+
+---
+
 ## 🤖 AI-Agent Integration (MCP)
 
 TAFLEX PY includes a built-in **Model Context Protocol (MCP)** server, transforming your test automation framework into an active service that AI agents (like Claude Desktop, Cursor, or specialized CI/CD agents) can securely interact with.
