@@ -31,9 +31,13 @@ def pytest_configure(config):
         config.option.rp_launch = app_config.rp_launch
 
     if "xray" in app_config.reporters:
-        config.option.jira_xray = True
-        config.option.client_secret_auth = True
-        if app_config.xray_client_id and app_config.xray_client_secret:
+        # Prevent crash if user hasn't configured real credentials yet
+        if app_config.xray_client_id == "your_xray_client_id" or not app_config.xray_client_id:
+            import logging
+            logging.warning("Xray reporting is enabled in .env, but using dummy or empty credentials. Disabling Xray for this run.")
+        else:
+            config.option.jira_xray = True
+            config.option.client_secret_auth = True
             if "cloud" in os.environ.get("XRAY_API_BASE_URL", "cloud"):
                 config.option.cloud = True
 
