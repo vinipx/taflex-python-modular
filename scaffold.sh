@@ -12,7 +12,7 @@ echo "Answer 'y' (yes) or 'n' (no) for each option."
 echo ""
 
 modules=()
-deps=("pytest" "pydantic" "pydantic-settings" "SQLAlchemy" "ruff" "mypy" "pytest-xdist" "radon" "pytest-cov")
+deps=("pytest" "pydantic" "pydantic-settings" "ruff" "mypy" "pytest-xdist" "radon" "pytest-cov")
 
 read -p "1) Web Testing (Playwright)? [y/n]: " req_web
 if [[ "$req_web" =~ ^[Yy]$ ]] || [[ -z "$req_web" ]]; then
@@ -445,7 +445,7 @@ fi
 echo "Generating pyproject.toml..."
 
 # Prepare dependencies strings for TOML
-base_deps="\"pytest\", \"pydantic\", \"pydantic-settings\", \"SQLAlchemy\", \"ruff\", \"mypy\", \"pytest-xdist\", \"radon\", \"pytest-cov\""
+base_deps="\"pytest\", \"pydantic\", \"pydantic-settings\", \"ruff\", \"mypy\", \"pytest-xdist\", \"radon\", \"pytest-cov\""
 for rep in "${reports[@]}"; do
     if [ "$rep" == "allure" ]; then base_deps="$base_deps, \"allure-pytest\""; fi
     if [ "$rep" == "reportportal" ]; then base_deps="$base_deps, \"pytest-reportportal\""; fi
