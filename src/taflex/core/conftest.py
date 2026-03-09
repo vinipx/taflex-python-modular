@@ -24,11 +24,15 @@ def pytest_configure(config):
     app_config = AppConfig()
     
     if "reportportal" in app_config.reporters:
-        config.option.rp_enabled = True
-        config.option.rp_endpoint = app_config.rp_endpoint
-        config.option.rp_api_key = app_config.rp_api_key or app_config.rp_uuid
-        config.option.rp_project = app_config.rp_project
-        config.option.rp_launch = app_config.rp_launch
+        if app_config.rp_api_key == "your_secret_api_key" or not app_config.rp_api_key:
+            import logging
+            logging.warning("ReportPortal reporting is enabled in .env, but using dummy or empty credentials. Disabling ReportPortal for this run.")
+        else:
+            config.option.rp_enabled = True
+            config.option.rp_endpoint = app_config.rp_endpoint
+            config.option.rp_api_key = app_config.rp_api_key or app_config.rp_uuid
+            config.option.rp_project = app_config.rp_project
+            config.option.rp_launch = app_config.rp_launch
 
     if "xray" in app_config.reporters:
         # Prevent crash if user hasn't configured real credentials yet
