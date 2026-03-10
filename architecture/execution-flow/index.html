@@ -1920,7 +1920,7 @@
 <p>It ensures that if someone passes <code>EXECUTION_MODE="api"</code>, the framework accurately routes that configuration to the <code>HttpxClient</code> class. This protects the core architectural routing from regressions without the overhead of launching an actual browser session.</p>
 <h2 id="summary">Summary</h2>
 <ul>
-<li><strong>Specific Fixtures (<code>web_driver</code>, <code>api_driver</code>)</strong>: Used for tests that explicitly require a specific interface regardless of the global run (e.g., an API test creating test data immediately before a Web UI test runs).</li>
+<li><strong>Specific Fixtures (<code>web_driver</code>, <code>api_driver</code>, <code>mq_client</code>)</strong>: Used for tests that explicitly require a specific interface regardless of the global run (e.g., an API test creating test data immediately before a Web UI test runs, or a hybrid test that triggers an API call and asserts an event via <code>mq_client</code>).</li>
 <li><strong><code>.env</code> / <code>EXECUTION_MODE</code></strong>: Drives the global default environment, crucial for CI/CD matrices and BDD step definitions.</li>
 <li><strong>Strategy Pattern (<code>DriverFactory</code>)</strong>: Hides the complex configuration details of third-party libraries (Playwright/Appium/HTTPX) away from your Pytest layer, ensuring a unified and extensible API.</li>
 </ul>

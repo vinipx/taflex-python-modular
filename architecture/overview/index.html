@@ -2149,12 +2149,34 @@
         +post(str, dict)
     }
 
+    class BaseMQClient {
+        &lt;&lt;abstract&gt;&gt;
+        +connect()
+        +disconnect()
+        +publish(destination, payload)
+        +wait_for_message(destination, timeout, condition)
+        +purge_queue(destination)
+    }
+
+    class RabbitMQClient {
+        -connection
+        -channel
+    }
+
+    class KafkaClient {
+        -producer
+        -consumer
+    }
+
     UiDriver &lt;|-- PlaywrightDriver
     ApiClient &lt;|-- HttpxClient
-    UiDriver &lt;|-- AppiumDriver</code></pre>
+    UiDriver &lt;|-- AppiumDriver
+    BaseMQClient &lt;|-- RabbitMQClient
+    BaseMQClient &lt;|-- KafkaClient</code></pre>
 <p><strong>Key Benefits:</strong>
 - ✅ Single test codebase for all platforms.
 - ✅ Driver changes (e.g., swapping engines) don't affect test specs.
+- ✅ Independent clients (like <code>BaseMQClient</code>) can be injected alongside UI/API drivers for asynchronous backend validation.
 - ✅ Supports parallel execution with different strategies.</p>
 <h3 id="2-configuration-management">2. Configuration Management</h3>
 <p>The <strong>AppConfig</strong> (via Pydantic Settings) provides centralized access to validated environment variables:</p>
@@ -2216,6 +2238,10 @@
 <tr>
 <td><strong>Mobile Testing</strong></td>
 <td>Appium</td>
+</tr>
+<tr>
+<td><strong>Message Queue</strong></td>
+<td>RabbitMQ (pika), Kafka (confluent-kafka)</td>
 </tr>
 <tr>
 <td><strong>Unit Testing</strong></td>
