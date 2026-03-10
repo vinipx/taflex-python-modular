@@ -103,15 +103,37 @@ classDiagram
         +get(str)
         +post(str, dict)
     }
+    
+    class BaseMQClient {
+        <<abstract>>
+        +connect()
+        +disconnect()
+        +publish(destination, payload)
+        +wait_for_message(destination, timeout, condition)
+        +purge_queue(destination)
+    }
+
+    class RabbitMQClient {
+        -connection
+        -channel
+    }
+
+    class KafkaClient {
+        -producer
+        -consumer
+    }
 
     UiDriver <|-- PlaywrightDriver
     ApiClient <|-- HttpxClient
     UiDriver <|-- AppiumDriver
+    BaseMQClient <|-- RabbitMQClient
+    BaseMQClient <|-- KafkaClient
 ```
 
 **Key Benefits:**
 - ✅ Single test codebase for all platforms.
 - ✅ Driver changes (e.g., swapping engines) don't affect test specs.
+- ✅ Independent clients (like `BaseMQClient`) can be injected alongside UI/API drivers for asynchronous backend validation.
 - ✅ Supports parallel execution with different strategies.
 
 ### 2. Configuration Management
@@ -163,6 +185,7 @@ sequenceDiagram
 | **BDD Testing** | Gherkin, pytest-bdd |
 | **API Testing** | Playwright (Hybrid) · HTTPX (Specialized) |
 | **Mobile Testing** | Appium |
+| **Message Queue** | RabbitMQ (pika), Kafka (confluent-kafka) |
 | **Unit Testing** | Pytest |
 | **Database** | SQLAlchemy, psycopg2, PyMySQL |
 | **Reporting** | Allure, Playwright HTML |

@@ -35,6 +35,6 @@ It ensures that if someone passes `EXECUTION_MODE="api"`, the framework accurate
 
 ## Summary
 
-* **Specific Fixtures (`web_driver`, `api_driver`)**: Used for tests that explicitly require a specific interface regardless of the global run (e.g., an API test creating test data immediately before a Web UI test runs).
+* **Specific Fixtures (`web_driver`, `api_driver`, `mq_client`)**: Used for tests that explicitly require a specific interface regardless of the global run (e.g., an API test creating test data immediately before a Web UI test runs, or a hybrid test that triggers an API call and asserts an event via `mq_client`).
 * **`.env` / `EXECUTION_MODE`**: Drives the global default environment, crucial for CI/CD matrices and BDD step definitions.
 * **Strategy Pattern (`DriverFactory`)**: Hides the complex configuration details of third-party libraries (Playwright/Appium/HTTPX) away from your Pytest layer, ensuring a unified and extensible API.
