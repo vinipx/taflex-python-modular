@@ -40,7 +40,13 @@ flowchart TB
         PD[PlaywrightDriver]
         HC[HttpxClient]
         AD[AppiumDriver]
+    end
+
+    subgraph "Service Clients"
+        direction TB
         MQC[BaseMQClient]
+        RMQ[RabbitMQClient]
+        KFK[KafkaClient]
     end
 
     subgraph "External Resources"
@@ -60,6 +66,9 @@ flowchart TB
     ADS --> PD
     ADS --> HC
     ADS --> AD
+    
+    MQC --> RMQ
+    MQC --> KFK
 
     CM --> ENV
     FIX --> ALR
