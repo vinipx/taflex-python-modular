@@ -40,6 +40,7 @@ flowchart TB
         PD[PlaywrightDriver]
         HC[HttpxClient]
         AD[AppiumDriver]
+        MQC[BaseMQClient]
     end
 
     subgraph "External Resources"
@@ -53,6 +54,7 @@ flowchart TB
     BDD --> FIX
     FIX --> DF
     FIX --> CM
+    FIX --> MQC
 
     DF --> ADS
     ADS --> PD
