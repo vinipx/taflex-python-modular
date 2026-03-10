@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://vinipx.github.io/taflex-python-modular/guides/api-testing/">
+        <link rel="canonical" href="https://vinipx.github.io/taflex-python-modular/guides/ai-agent-workflows/">
       
       
-        <link rel="prev" href="../locators/">
+        <link rel="prev" href="../mcp-integration/">
       
       
-        <link rel="next" href="../bdd-testing/">
+        <link rel="next" href="../reporting/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>API Testing - TAFLEX PY</title>
+        <title>AI Agent Workflows & CI/CD - TAFLEX PY</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#api-testing" class="md-skip">
+        <a href="#ai-agent-workflows-cicd-integration" class="md-skip">
           Skip to content
         </a>
       
@@ -132,7 +132,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              API Testing
+              AI Agent Workflows & CI/CD
             
           </span>
         </div>
@@ -228,7 +228,7 @@
         <a href="../../architecture/overview/" class="tx-top-nav-item">Architecture</a>
         <a href="../../tutorials/web-tests/" class="tx-top-nav-item">Tutorials</a>
         <a href="../mcp-integration/" class="tx-top-nav-item">Core Guides</a>
-        <a href="../ai-agent-workflows/" class="tx-top-nav-item">AI Workflows</a>
+        <a href="./" class="tx-top-nav-item">AI Workflows</a>
         <a href="../../api/core-interfaces/" class="tx-top-nav-item">API Reference</a>
       </nav>
     </div>
@@ -1082,10 +1082,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../ai-agent-workflows/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Workflows & CI/CD
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1101,6 +1128,176 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-local-ai-agent-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Local AI Agent Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Local AI Agent Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connecting-to-gemini-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connecting to Gemini CLI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connecting-to-ides-cursor-roo-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connecting to IDEs (Cursor / Roo Code)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connecting-to-claude-desktop-claude-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connecting to Claude Desktop / Claude Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-autonomous-github-actions-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Autonomous GitHub Actions Agent
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Autonomous GitHub Actions Agent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-the-github-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: The GitHub Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-the-agent-script-scriptsci_agentpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: The Agent Script (scripts/ci_agent.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-practical-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Practical Use Cases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Practical Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-self-healing-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The "Self-Healing" Run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-context-aware-scaffold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The "Context-Aware" Scaffold
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-code-quality-enforcer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Code Quality Enforcer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1194,37 +1391,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    API Testing
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../api-testing/" class="md-nav__link">
         
   
   
@@ -1240,120 +1410,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-hybrid-api-testing-playwright" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Hybrid API Testing (Playwright)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#writing-an-api-test" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Writing an API Test
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#available-methods" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Available Methods
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-specialized-api-testing-httpx-pytest" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Specialized API Testing (HTTPX + Pytest)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. Specialized API Testing (HTTPX + Pytest)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#configuration_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#writing-an-httpx-api-test" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Writing an HTTPX API Test
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#running-specialized-tests" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Running Specialized Tests
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1876,66 +1932,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-hybrid-api-testing-playwright" class="md-nav__link">
+  <a href="#1-local-ai-agent-integration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Hybrid API Testing (Playwright)
+        1. Local AI Agent Integration
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#writing-an-api-test" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Writing an API Test
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#available-methods" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Available Methods
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-specialized-api-testing-httpx-pytest" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Specialized API Testing (HTTPX + Pytest)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. Specialized API Testing (HTTPX + Pytest)">
+    <nav class="md-nav" aria-label="1. Local AI Agent Integration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#configuration_1" class="md-nav__link">
+  <a href="#connecting-to-gemini-cli" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration
+        Connecting to Gemini CLI
       
     </span>
   </a>
@@ -1943,10 +1955,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#writing-an-httpx-api-test" class="md-nav__link">
+  <a href="#connecting-to-ides-cursor-roo-code" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Writing an HTTPX API Test
+        Connecting to IDEs (Cursor / Roo Code)
       
     </span>
   </a>
@@ -1954,10 +1966,110 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#running-specialized-tests" class="md-nav__link">
+  <a href="#connecting-to-claude-desktop-claude-code" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Running Specialized Tests
+        Connecting to Claude Desktop / Claude Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-autonomous-github-actions-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Autonomous GitHub Actions Agent
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Autonomous GitHub Actions Agent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-the-github-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: The GitHub Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-the-agent-script-scriptsci_agentpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: The Agent Script (scripts/ci_agent.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-practical-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Practical Use Cases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Practical Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-self-healing-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The "Self-Healing" Run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-context-aware-scaffold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The "Context-Aware" Scaffold
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-code-quality-enforcer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Code Quality Enforcer
       
     </span>
   </a>
@@ -1986,7 +2098,7 @@
 
 
   
-    <a href="https://github.com/vinipx/taflex-python-modular/edit/main/docs/guides/api-testing.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/vinipx/taflex-python-modular/edit/main/docs/guides/ai-agent-workflows.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1994,73 +2106,168 @@
   
 
 
-<h1 id="api-testing">API Testing</h1>
-<p>TAFLEX PY employs a <strong>Dual API Strategy</strong> that allows you to choose the best tool for your specific testing needs.</p>
-<table>
-<thead>
-<tr>
-<th>Strategy</th>
-<th>Engine</th>
-<th>Best For...</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Hybrid (E2E)</strong></td>
-<td>Playwright</td>
-<td>API calls within UI flows (setup/teardown), shared authentication with browser context.</td>
-</tr>
-<tr>
-<td><strong>Specialized (Logic)</strong></td>
-<td>HTTPX + Pytest</td>
-<td>High-volume contract testing, complex business logic validation, and standalone API suites requiring maximum execution speed.</td>
-</tr>
-</tbody>
-</table>
+<h1 id="ai-agent-workflows-cicd-integration">AI Agent Workflows &amp; CI/CD Integration</h1>
+<p>TAFLEX PY's native Model Context Protocol (MCP) server enables not just local debugging, but fully autonomous AI workflows. By providing a standardized interface (Resources and Tools), you can integrate AI agents into your daily development cycle and your CI/CD pipelines.</p>
+<p>This guide covers how to set up AI agents locally using various clients (Gemini CLI, Cursor, Claude Code) and how to deploy an autonomous testing agent in GitHub Actions.</p>
 <hr />
-<h2 id="1-hybrid-api-testing-playwright">1. Hybrid API Testing (Playwright)</h2>
-<p>This strategy uses Playwright's <code>APIRequestContext</code>.</p>
-<h2 id="configuration">Configuration</h2>
-<p>Ensure <code>API_BASE_URL</code> is set in your <code>.env</code> file.</p>
-<h2 id="writing-an-api-test">Writing an API Test</h2>
-<p>Use the <code>api_driver</code> fixture (or a generic driver with <code>EXECUTION_MODE=api</code>).</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">api</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_get_user_details</span><span class="p">(</span><span class="n">api_driver</span><span class="p">):</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">response</span> <span class="o">=</span> <span class="n">api_driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/users/1&#39;</span><span class="p">)</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="mi">200</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">user</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="k">assert</span> <span class="n">user</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Bret&#39;</span>
-</span></code></pre></div>
-<h2 id="available-methods">Available Methods</h2>
-<p>The API driver supports standard HTTP methods:
-- <code>driver.get(url, **kwargs)</code>
-- <code>driver.post(url, **kwargs)</code>
-- <code>driver.put(url, **kwargs)</code>
-- <code>driver.delete(url, **kwargs)</code></p>
-<h2 id="2-specialized-api-testing-httpx-pytest">2. Specialized API Testing (HTTPX + Pytest)</h2>
-<p>For high-performance, pure API tests (without UI dependencies), TAFLEX PY supports a specialized strategy using <strong>HTTPX</strong>.</p>
-<h3 id="configuration_1">Configuration</h3>
-<p>Set the provider in your <code>.env</code>:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>API_PROVIDER=httpx
+<h2 id="1-local-ai-agent-integration">1. Local AI Agent Integration</h2>
+<p>You can connect your local workspace to an AI Assistant, allowing it to read your framework configuration, debug failing tests, and write code.</p>
+<h3 id="connecting-to-gemini-cli">Connecting to Gemini CLI</h3>
+<p>Gemini CLI has built-in support for MCP servers. You can add the TAFLEX MCP server dynamically or via a configuration file.</p>
+<p><strong>Option A: CLI Setup</strong>
+Run this from your project root to register the server:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>gemini<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>taflex-mcp<span class="w"> </span><span class="s2">&quot;taflex-mcp&quot;</span><span class="w"> </span>--trust
 </span></code></pre></div></p>
-<h3 id="writing-an-httpx-api-test">Writing an HTTPX API Test</h3>
-<p>Create a file <code>test_users.py</code> in your <code>tests/api/</code> directory:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">api</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_fetch_data</span><span class="p">(</span><span class="n">api_driver</span><span class="p">):</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">response</span> <span class="o">=</span> <span class="n">api_driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/endpoint&#39;</span><span class="p">)</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="k">assert</span> <span class="s1">&#39;id&#39;</span> <span class="ow">in</span> <span class="n">data</span>
+<p><strong>Option B: Manual Setup</strong>
+Create a <code>.gemini/settings.json</code> file in your workspace:
+<div class="language-json highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;mcpServers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">&quot;taflex-mcp&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">      </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;taflex-mcp&quot;</span><span class="p">,</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="nt">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">      </span><span class="nt">&quot;trust&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p><strong>Usage in Gemini CLI:</strong>
+- Type <code>/mcp</code> in the interactive prompt to verify the connection and see available tools.
+- Ask: <em>"Use the <code>taflex-mcp</code> tools to run the web test suite. If any tests fail, analyze the output and fix the locator in the corresponding test file."</em></p>
+<h3 id="connecting-to-ides-cursor-roo-code">Connecting to IDEs (Cursor / Roo Code)</h3>
+<p>In <strong>Cursor</strong> or VS Code extensions like <strong>Roo Code (Cline)</strong>:
+1. Go to MCP Settings.
+2. Add a new <code>command</code> server.
+3. Provide the absolute path to the executable: <code>/absolute/path/to/.venv/bin/taflex-mcp</code></p>
+<h3 id="connecting-to-claude-desktop-claude-code">Connecting to Claude Desktop / Claude Code</h3>
+<p>Edit your <code>claude_desktop_config.json</code>:
+<div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;mcpServers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">&quot;taflex-mcp&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">      </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/absolute/path/to/project/.venv/bin/taflex-mcp&quot;</span><span class="p">,</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">      </span><span class="nt">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="2-autonomous-github-actions-agent">2. Autonomous GitHub Actions Agent</h2>
+<p>The true power of MCP is realized when deployed in CI/CD. You can create a GitHub Workflow that triggers an AI agent to autonomously investigate and fix failing tests when a PR is opened or a nightly run fails.</p>
+<h3 id="architecture">Architecture</h3>
+<ol>
+<li><strong>The Trigger:</strong> A GitHub Action is triggered (e.g., via <code>issue_comment</code> when a user types <code>/fix-tests</code>).</li>
+<li><strong>The MCP Server:</strong> The action installs <code>taflex-py[mcp]</code> and exposes the framework's capabilities.</li>
+<li><strong>The Agent:</strong> A lightweight Python script (using LangChain or Anthropic SDK) connects to the MCP server.</li>
+<li><strong>The Loop:</strong> The agent runs Pytest, reads the failing code, rewrites the file, and runs Pytest again.</li>
+<li><strong>The Commit:</strong> Once the test passes, the action commits the fix back to the branch.</li>
+</ol>
+<h3 id="example-the-github-workflow">Example: The GitHub Workflow</h3>
+<p>Create <code>.github/workflows/ai-agent.yml</code>:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Autonomous Test Maintainer</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nt">on</span><span class="p">:</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">issue_comment</span><span class="p">:</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nt">types</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">created</span><span class="p p-Indicator">]</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nt">jobs</span><span class="p">:</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="nt">fix-tests</span><span class="p">:</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="c1"># Trigger only if someone comments &quot;/fix-tests&quot; on a PR</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.event.issue.pull_request &amp;&amp; contains(github.event.comment.body, &#39;/fix-tests&#39;)</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="nt">permissions</span><span class="p">:</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">      </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">      </span><span class="nt">pull-requests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Checkout Repository</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">          </span><span class="nt">ref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ github.event.pull_request.head.ref }}</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up Python</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v5</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.10&#39;</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Framework and AI Dependencies</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="w">          </span><span class="no">pip install -e &quot;.[all]&quot;</span>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">          </span><span class="no">playwright install --with-deps</span>
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="w">          </span><span class="no"># Install your preferred AI SDK here (e.g., anthropic, mcp)</span>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="w">          </span><span class="no">pip install anthropic mcp</span>
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run AI Debugging Agent</span>
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="w">          </span><span class="nt">ANTHROPIC_API_KEY</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.ANTHROPIC_API_KEY }}</span>
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="w">        </span><span class="c1"># Assuming you have a script that initializes an Anthropic client with the MCP server</span>
+</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python scripts/ci_agent.py</span>
+</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a>
+</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Commit and Push Fixes</span>
+</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+</span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a><span class="w">          </span><span class="no">git config user.name &quot;github-actions[bot]&quot;</span>
+</span><span id="__span-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a><span class="w">          </span><span class="no">git config user.email &quot;github-actions[bot]@users.noreply.github.com&quot;</span>
+</span><span id="__span-3-44"><a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a><span class="w">          </span><span class="no">git add tests/ src/</span>
+</span><span id="__span-3-45"><a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a><span class="w">          </span><span class="no">git diff --staged --quiet || (git commit -m &quot;test: AI autonomously fixed test failures&quot; &amp;&amp; git push)</span>
+</span><span id="__span-3-46"><a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a>
+</span><span id="__span-3-47"><a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">React to Comment</span>
+</span><span id="__span-3-48"><a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/github-script@v7</span>
+</span><span id="__span-3-49"><a id="__codelineno-3-49" name="__codelineno-3-49" href="#__codelineno-3-49"></a><span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-3-50"><a id="__codelineno-3-50" name="__codelineno-3-50" href="#__codelineno-3-50"></a><span class="w">          </span><span class="nt">script</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+</span><span id="__span-3-51"><a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a><span class="w">            </span><span class="no">github.rest.reactions.createForIssueComment({</span>
+</span><span id="__span-3-52"><a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a><span class="w">              </span><span class="no">owner: context.repo.owner,</span>
+</span><span id="__span-3-53"><a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a><span class="w">              </span><span class="no">repo: context.repo.repo,</span>
+</span><span id="__span-3-54"><a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a><span class="w">              </span><span class="no">comment_id: context.payload.comment.id,</span>
+</span><span id="__span-3-55"><a id="__codelineno-3-55" name="__codelineno-3-55" href="#__codelineno-3-55"></a><span class="w">              </span><span class="no">content: &quot;rocket&quot;</span>
+</span><span id="__span-3-56"><a id="__codelineno-3-56" name="__codelineno-3-56" href="#__codelineno-3-56"></a><span class="w">            </span><span class="no">});</span>
 </span></code></pre></div>
-<h3 id="running-specialized-tests">Running Specialized Tests</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>pytest<span class="w"> </span>tests/api/
+<h3 id="example-the-agent-script-scriptsci_agentpy">Example: The Agent Script (<code>scripts/ci_agent.py</code>)</h3>
+<p><em>Note: This is a conceptual representation of how an agent uses the MCP client to loop through tools.</em></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcp</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClientSession</span><span class="p">,</span> <span class="n">StdioServerParameters</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcp.client.stdio</span><span class="w"> </span><span class="kn">import</span> <span class="n">stdio_client</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="c1"># 1. Connect to the local Taflex MCP Server</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">server_params</span> <span class="o">=</span> <span class="n">StdioServerParameters</span><span class="p">(</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="n">command</span><span class="o">=</span><span class="s2">&quot;taflex-mcp&quot;</span><span class="p">,</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>        <span class="n">args</span><span class="o">=</span><span class="p">[]</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="p">)</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="k">async</span> <span class="k">with</span> <span class="n">stdio_client</span><span class="p">(</span><span class="n">server_params</span><span class="p">)</span> <span class="k">as</span> <span class="p">(</span><span class="n">read</span><span class="p">,</span> <span class="n">write</span><span class="p">):</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>        <span class="k">async</span> <span class="k">with</span> <span class="n">ClientSession</span><span class="p">(</span><span class="n">read</span><span class="p">,</span> <span class="n">write</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>            <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>            <span class="c1"># 2. Instruct the AI (Conceptual API Call to LLM)</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>            <span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="s2">            You are an autonomous test engineer. </span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="s2">            Use the &#39;run_pytest&#39; tool. </span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="s2">            If it fails, use &#39;read_project_file&#39; to understand the code, </span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="s2">            &#39;write_test_file&#39; to fix it, and run pytest again.</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="s2">            Stop when &#39;run_pytest&#39; returns Exit Code 0.</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="s2">            &quot;&quot;&quot;</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>            <span class="c1"># 3. The LLM Client library would loop here, requesting tool calls</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>            <span class="c1"># from the session and returning the results to the LLM.</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Agent loop initiated...&quot;</span><span class="p">)</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </span></code></pre></div>
+<hr />
+<h2 id="3-practical-use-cases">3. Practical Use Cases</h2>
+<p>Here are examples of prompts you can use with your connected AI Agent to maximize productivity:</p>
+<h3 id="the-self-healing-run">The "Self-Healing" Run</h3>
+<blockquote>
+<p>"Run the entire test suite using the <code>run_pytest</code> tool. For every failure you encounter, read the traceback, inspect the relevant Page Object in the <code>src/</code> folder, fix the selector, and re-run the test until the suite is green."</p>
+</blockquote>
+<h3 id="the-context-aware-scaffold">The "Context-Aware" Scaffold</h3>
+<blockquote>
+<p>"I need to write a BDD test for a new 'Shopping Cart' feature. Please read <code>docs://guides/bdd-testing</code> to understand how TAFLEX handles Gherkin. Then, scaffold the <code>.feature</code> file and the corresponding step definition Python file in the <code>tests/bdd/</code> directory."</p>
+</blockquote>
+<h3 id="the-code-quality-enforcer">The Code Quality Enforcer</h3>
+<blockquote>
+<p>"Find all files in <code>tests/web/</code> that were modified recently. Use the <code>format_code</code> tool to run Ruff on them and ensure they comply with our strict typing and formatting standards."</p>
+</blockquote>
 
 
 
@@ -2096,7 +2303,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../locators/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Locators">
+          <a href="../mcp-integration/" class="md-footer__link md-footer__link--prev" aria-label="Previous: AI-Agent Integration (MCP)">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2106,20 +2313,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Locators
+                AI-Agent Integration (MCP)
               </div>
             </div>
           </a>
         
         
           
-          <a href="../bdd-testing/" class="md-footer__link md-footer__link--next" aria-label="Next: BDD Testing">
+          <a href="../reporting/" class="md-footer__link md-footer__link--next" aria-label="Next: Reporting Governance">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                BDD Testing
+                Reporting Governance
               </div>
             </div>
             <div class="md-footer__button md-icon">
