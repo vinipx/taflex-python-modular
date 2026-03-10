@@ -74,6 +74,7 @@ nav:
     - Managers: guides/managers.md
   - Core Guides:
     - AI-Agent Integration (MCP): guides/mcp-integration.md
+    - AI Agent Workflows & CI/CD: guides/ai-agent-workflows.md
     - Reporting Governance: guides/reporting.md
     - Pact Testing: guides/pact-testing.md
     - Locators: guides/locators.md

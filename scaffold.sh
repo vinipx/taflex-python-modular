@@ -206,6 +206,9 @@ cover/
 reports/
 allure-results/
 
+# AI Agent (MCP)
+.taflex-mcp/
+
 # Environments
 .env
 .venv
@@ -237,6 +240,21 @@ fi
 for mod in "${modules[@]}"; do
     if [ -d "$TEMPLATE_DIR/src/taflex/$mod" ]; then
         cp -R "$TEMPLATE_DIR/src/taflex/$mod" "$project_path/src/taflex/"
+    fi
+    if [ "$mod" == "mcp" ]; then
+        if [ -f "$TEMPLATE_DIR/src/taflex/mcp_server.py" ]; then
+            cp "$TEMPLATE_DIR/src/taflex/mcp_server.py" "$project_path/src/taflex/"
+        fi
+cat <<EOF > "$project_path/mcp.json"
+{
+  "mcpServers": {
+    "taflex-py": {
+      "command": "taflex-mcp",
+      "args": []
+    }
+  }
+}
+EOF
     fi
 done
 
@@ -494,7 +512,7 @@ for mod in "${modules[@]}"; do
             echo "mq = [\"pika\"]" >> "$project_path/pyproject.toml"; 
         fi
     fi
-    if [ "$mod" == "mcp" ]; then echo "mcp = [\"mcp>=1.0.0\"]" >> "$project_path/pyproject.toml"; fi
+    if [ "$mod" == "mcp" ]; then echo "mcp = [\"mcp>=1.0.0\", \"pytest-json-report\"]" >> "$project_path/pyproject.toml"; fi
 done
 echo "all = [\"taflex-py-project[$(IFS=,; echo "${modules[*]}")]\"]" >> "$project_path/pyproject.toml"
 

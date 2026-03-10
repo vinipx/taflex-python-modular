@@ -1,0 +1,56 @@
+name: Autonomous Test Maintainer
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  fix-tests:
+    # Trigger only if someone comments "/fix-tests" on a PR
+    if: github.event.issue.pull_request && contains(github.event.comment.body, '/fix-tests')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Framework and AI Dependencies
+        run: |
+          pip install -e ".[all]"
+          playwright install --with-deps
+          # Install your preferred AI SDK here (e.g., anthropic, mcp)
+          pip install anthropic mcp
+
+      - name: Run AI Debugging Agent
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        # Assuming you have a script that initializes an Anthropic client with the MCP server
+        run: python scripts/ci_agent.py
+
+      - name: Commit and Push Fixes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add tests/ src/
+          git diff --staged --quiet || (git commit -m "test: AI autonomously fixed test failures" && git push)
+          
+      - name: React to Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: "rocket"
+            });
