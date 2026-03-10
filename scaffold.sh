@@ -732,14 +732,20 @@ EOF
 fi
 
 if [[ " ${modules[*]} " =~ " mq " ]]; then
+if [[ "$mq_type" == "kafka" ]]; then
+    mq_port="9092"
+else
+    mq_port="5672"
+fi
+
 cat <<EOF >> "$project_path/.env"
 
 # ------------------------------------------------------------------------------
 # Message Queue (MQ) Testing Settings
 # ------------------------------------------------------------------------------
-MQ_PROTOCOL=\$mq_type
+MQ_PROTOCOL=$mq_type
 MQ_HOST=localhost
-MQ_PORT=\$([[ "\$mq_type" == "kafka" ]] && echo "9092" || echo "5672")
+MQ_PORT=$mq_port
 MQ_USERNAME=guest
 MQ_PASSWORD=guest
 EOF
@@ -895,24 +901,38 @@ EOF
     elif [ "$mod" == "mq" ]; then
 cat <<EOF > "$project_path/tests/test_sample_mq.py"
 import pytest
+from unittest.mock import MagicMock
+
+# We mock the mq_client fixture here so the sample test passes out of the box.
+# To test against a real broker, remove this fixture and configure your .env file.
+@pytest.fixture
+def mq_client():
+    client = MagicMock()
+    client.wait_for_message.return_value = {"event": "user_created", "id": 123}
+    return client
 
 @pytest.mark.mq
 def test_example_mq(mq_client):
     """
-    Sample MQ test demonstrating queue purge and message publishing.
+    Sample MQ test demonstrating queue purge, message publishing, and waiting.
     """
     queue_name = "test_queue"
     
-    # Optional: Clear queue before test
-    try:
-        mq_client.purge_queue(queue_name)
-    except Exception as e:
-        print(f"Purge not supported or failed: {e}")
+    # Clear queue before test
+    mq_client.purge_queue(queue_name)
         
     payload = {"event": "user_created", "id": 123}
     mq_client.publish(destination=queue_name, payload=payload)
     
-    print("Successfully published message to MQ.")
+    # Wait for the async message to arrive
+    msg = mq_client.wait_for_message(
+        destination=queue_name,
+        timeout=5,
+        condition=lambda m: m.get("id") == 123
+    )
+    
+    assert msg["id"] == 123
+    print("Successfully published and received message from mocked MQ.")
 EOF
     fi
 done
