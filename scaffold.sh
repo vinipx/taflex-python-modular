@@ -478,6 +478,7 @@ echo "Generating pyproject.toml..."
 # Prepare dependencies strings for TOML
 base_deps="\"pytest\", \"pydantic\", \"pydantic-settings\", \"ruff\", \"mypy\", \"pytest-xdist\", \"radon\", \"pytest-cov\""
 for rep in "${reports[@]}"; do
+    if [ "$rep" == "html" ]; then base_deps="$base_deps, \"pytest-html\""; fi
     if [ "$rep" == "allure" ]; then base_deps="$base_deps, \"allure-pytest\""; fi
     if [ "$rep" == "reportportal" ]; then base_deps="$base_deps, \"pytest-reportportal\""; fi
     if [ "$rep" == "xray" ]; then base_deps="$base_deps, \"pytest-jira-xray\""; fi
