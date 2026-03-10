@@ -100,3 +100,18 @@ def pact(base_config: AppConfig):
     yield pact_manager
     
     pact_manager.stop_service()
+
+@pytest.fixture(scope="session")
+def mq_client(base_config: AppConfig):
+    if base_config.mq_protocol == "rabbitmq":
+        from taflex.mq.rabbitmq_client import RabbitMQClient
+        client = RabbitMQClient(base_config)
+    elif base_config.mq_protocol == "kafka":
+        from taflex.mq.kafka_client import KafkaClient
+        client = KafkaClient(base_config)
+    else:
+        raise ValueError(f"Unsupported MQ Protocol: {base_config.mq_protocol}")
+        
+    client.connect()
+    yield client
+    client.disconnect()

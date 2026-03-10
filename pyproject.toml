@@ -26,7 +26,8 @@ mobile = ["Appium-Python-Client"]
 bdd = ["pytest-bdd"]
 contract = ["pact-python"]
 mcp = ["mcp>=1.0.0"]
-all = ["taflex-py[api,web,mobile,bdd,contract,mcp]"]
+mq = ["pika", "confluent-kafka"]
+all = ["taflex-py[api,web,mobile,bdd,contract,mcp,mq]"]
 
 [project.scripts]
 taflex-mcp = "taflex.mcp_server:main"

@@ -44,6 +44,19 @@ if [[ "$req_bdd" =~ ^[Yy]$ ]] || [[ -z "$req_bdd" ]]; then
     deps+=("pytest-bdd")
 fi
 
+read -p "6) MQ Testing? [y/n]: " req_mq
+if [[ "$req_mq" =~ ^[Yy]$ ]]; then
+    modules+=("mq")
+    read -p "   Which protocol? (1: RabbitMQ, 2: Kafka) [1/2]: " mq_proto
+    if [[ "$mq_proto" == "2" ]]; then
+        deps+=("confluent-kafka")
+        mq_type="kafka"
+    else
+        deps+=("pika")
+        mq_type="rabbitmq"
+    fi
+fi
+
 if [ ${#modules[@]} -eq 0 ]; then
     echo "No modules selected. Defaulting to 'web'."
     modules=("web")
@@ -474,6 +487,13 @@ for mod in "${modules[@]}"; do
     if [ "$mod" == "mobile" ]; then echo "mobile = [\"Appium-Python-Client\"]" >> "$project_path/pyproject.toml"; fi
     if [ "$mod" == "contract" ]; then echo "contract = [\"pact-python\"]" >> "$project_path/pyproject.toml"; fi
     if [ "$mod" == "bdd" ]; then echo "bdd = [\"pytest-bdd\"]" >> "$project_path/pyproject.toml"; fi
+    if [ "$mod" == "mq" ]; then 
+        if [[ " ${deps[*]} " =~ " confluent-kafka " ]]; then
+            echo "mq = [\"confluent-kafka\"]" >> "$project_path/pyproject.toml"; 
+        else
+            echo "mq = [\"pika\"]" >> "$project_path/pyproject.toml"; 
+        fi
+    fi
     if [ "$mod" == "mcp" ]; then echo "mcp = [\"mcp>=1.0.0\"]" >> "$project_path/pyproject.toml"; fi
 done
 echo "all = [\"taflex-py-project[$(IFS=,; echo "${modules[*]}")]\"]" >> "$project_path/pyproject.toml"
@@ -500,6 +520,7 @@ markers = [
     "web: mark test as web test",
     "mobile: mark test as mobile test",
     "bdd: mark test as bdd test",
+    "mq: mark test as mq test",
 ]
 
 [tool.ruff]
@@ -710,6 +731,20 @@ PACT_ENABLED=false
 EOF
 fi
 
+if [[ " ${modules[*]} " =~ " mq " ]]; then
+cat <<EOF >> "$project_path/.env"
+
+# ------------------------------------------------------------------------------
+# Message Queue (MQ) Testing Settings
+# ------------------------------------------------------------------------------
+MQ_PROTOCOL=\$mq_type
+MQ_HOST=localhost
+MQ_PORT=\$([[ "\$mq_type" == "kafka" ]] && echo "9092" || echo "5672")
+MQ_USERNAME=guest
+MQ_PASSWORD=guest
+EOF
+fi
+
 # Generate basic conftest.py
 cat <<EOF > "$project_path/tests/conftest.py"
 import pytest
@@ -856,6 +891,28 @@ def check_driver_type(driver):
 @then("It should be configured correctly")
 def configured_correctly():
     assert True
+EOF
+    elif [ "$mod" == "mq" ]; then
+cat <<EOF > "$project_path/tests/test_sample_mq.py"
+import pytest
+
+@pytest.mark.mq
+def test_example_mq(mq_client):
+    """
+    Sample MQ test demonstrating queue purge and message publishing.
+    """
+    queue_name = "test_queue"
+    
+    # Optional: Clear queue before test
+    try:
+        mq_client.purge_queue(queue_name)
+    except Exception as e:
+        print(f"Purge not supported or failed: {e}")
+        
+    payload = {"event": "user_created", "id": 123}
+    mq_client.publish(destination=queue_name, payload=payload)
+    
+    print("Successfully published message to MQ.")
 EOF
     fi
 done
@@ -1014,6 +1071,30 @@ def have_driver(driver):
 \`\`\`
 EOF
         echo "* [BDD Testing Guide](bdd-testing.md)" >> "$project_path/docs/README.md"
+    elif [ "$mod" == "mq" ]; then
+cat <<EOF > "$project_path/docs/mq-testing.md"
+# MQ Testing
+
+Message Queue testing supports interacting with message brokers asynchronously.
+
+## Usage
+
+\`\`\`python
+import pytest
+
+@pytest.mark.mq
+def test_mq_interaction(mq_client):
+    mq_client.publish("my_queue", {"key": "value"})
+    
+    msg = mq_client.wait_for_message(
+        destination="my_queue",
+        timeout=5,
+        condition=lambda m: m.get("key") == "value"
+    )
+    assert msg is not None
+\`\`\`
+EOF
+        echo "* [MQ Testing Guide](mq-testing.md)" >> "$project_path/docs/README.md"
     fi
 done
 
@@ -1079,6 +1160,7 @@ for mod in "${modules[@]}"; do
     if [ "$mod" == "mobile" ]; then echo "    - Mobile Testing: mobile-testing.md" >> "$project_path/mkdocs.yml"; fi
     if [ "$mod" == "contract" ]; then echo "    - Contract Testing: contract-testing.md" >> "$project_path/mkdocs.yml"; fi
     if [ "$mod" == "bdd" ]; then echo "    - BDD Testing: bdd-testing.md" >> "$project_path/mkdocs.yml"; fi
+    if [ "$mod" == "mq" ]; then echo "    - MQ Testing: mq-testing.md" >> "$project_path/mkdocs.yml"; fi
 done
 
 if [[ " ${reports[*]} " =~ " allure " ]]; then

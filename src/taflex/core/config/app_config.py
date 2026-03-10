@@ -36,4 +36,11 @@ class AppConfig(BaseSettings):
     pact_broker_url: Optional[str] = None
     pact_broker_token: Optional[str] = None
 
+    # MQ settings
+    mq_protocol: str = "rabbitmq" # options: rabbitmq, kafka
+    mq_host: str = "localhost"
+    mq_port: int = 5672
+    mq_username: Optional[str] = "guest"
+    mq_password: Optional[str] = "guest"
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
