@@ -2091,6 +2091,7 @@
         PD[PlaywrightDriver]
         HC[HttpxClient]
         AD[AppiumDriver]
+        MQC[BaseMQClient]
     end
 
     subgraph "External Resources"
@@ -2104,6 +2105,7 @@
     BDD --&gt; FIX
     FIX --&gt; DF
     FIX --&gt; CM
+    FIX --&gt; MQC
 
     DF --&gt; ADS
     ADS --&gt; PD
