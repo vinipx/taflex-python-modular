@@ -1,7 +1,5 @@
 import pytest
-from pathlib import Path
 import shutil
-import os
 
 from taflex.mcp_server import _safe_resolve, _backup_file, PROJECT_ROOT, MCP_DIR
 
